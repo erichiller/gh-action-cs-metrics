@@ -92,7 +92,7 @@ static class CodeMetricsReportExtensions
                     {
                         var encodedName = HttpUtility.HtmlEncode(classSymbolName);
                         var id = $"{encodedName}-class-diagram";
-                        var linkToClassDiagram = $"<a href=\"#{id}\">:link: to `{encodedName}` class diagram</a>";
+                        var linkToClassDiagram = $"<a href=\"#{id}\">🔗 to `{encodedName}` class diagram</a>";
                         document.AppendParagraph(linkToClassDiagram);
                         classDiagrams.Add((id, classSymbolName, classMetric.ToMermaidClassDiagram(classSymbolName)));
                     }
@@ -187,9 +187,9 @@ static class CodeMetricsReportExtensions
         var displayName = metric.ToDisplayName();
         var id = PrepareElementId(displayName);
         var highestComplexity = metric.FindHighestCyclomaticComplexity();
-        var anchorLink = $"<a href=\"#{id}\">:top: back to {HttpUtility.HtmlEncode(displayName)}</a>";
+        var anchorLink = $"<a href=\"#{id}\">🔝 back to {HttpUtility.HtmlEncode(displayName)}</a>";
 
-        return (id, displayName, anchorLink, (highestComplexity.Complexity, highestComplexity.Emoji ?? ":question:"));
+        return (id, displayName, anchorLink, (highestComplexity.Complexity, highestComplexity.Emoji ?? "❓"));
     }
 
     static IMarkdownDocument OpenCollapsibleSection(
