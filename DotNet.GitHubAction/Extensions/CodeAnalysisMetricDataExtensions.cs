@@ -52,12 +52,14 @@ static class CodeAnalysisMetricDataExtensions
         StringBuilder builder = new("classDiagram");
         builder.AppendLine();
 
-        className = "`"
-            + ( className.Contains(".")
+        className = className.Contains(".")
                     ? className.Substring(className.IndexOf(".") + 1)
-                    : className
-              ).Replace("<", "&lt;")
-               .Replace(">","&gt;")
+                    : className;
+        string classNameEscaped = 
+            "`"
+            + className
+                .Replace("<", "&lt;")
+                .Replace(">","&gt;")
             + "`";
 
         if (classMetric.Symbol is ITypeSymbol typeSymbol &&
@@ -79,7 +81,7 @@ static class CodeAnalysisMetricDataExtensions
             }
         }
 
-        builder.AppendLine($"class {className}{{");
+        builder.AppendLine($"class {classNameEscaped}{{");
 
         static string? ToClassifier(CodeAnalysisMetricData member) =>
             (member.Symbol.IsStatic, member.Symbol.IsAbstract) switch
