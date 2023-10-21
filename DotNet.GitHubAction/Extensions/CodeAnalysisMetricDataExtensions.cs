@@ -78,35 +78,49 @@ static class CodeAnalysisMetricDataExtensions
         {
             foreach (var @interface in typeSymbol.Interfaces)
             {
-                if (@interface.IsGenericType)
-                {
+                string interfaceName = @interface.Name;
+                if (@interface.IsGenericType) {
                     var typeArgs = string.Join(",", @interface.TypeArguments.Select(ta => ta.Name));
-                    var name = $"{@interface.Name}~{typeArgs}~";
-                    builder.AppendLine($"{escapeClassName(name)} <|-- {escapeClassName(className)} : implements");
+                    interfaceName = $"{@interface.Name}~{typeArgs}~";
                 }
-                else
-                {
-                    var name = @interface.Name;
-                    builder.AppendLine($"{escapeClassName(name)} <|-- {escapeClassName(className)} : implements"); 
-                }
+                builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(className)} : implements"); 
+                
+                builder.AppendLine($$"""
+                    class {{toClassNameId(interfaceName)}} ["{{classNameToDisplay(interfaceName)}}"] {
+                        <<interface>>
+                    }
+                    """;
             }
         }
 
-        builder.AppendLine($"class {escapeClassName(className)}{{");
+        builder.AppendLine(
+            $$"""
+            class {{toClassNameId(className)}} ["{{classNameToDisplay(className)}}"] {
+            """;
+            
         
-        /*
+        
         static string? classNameToDisplay( string className ) =>
              className
                 .Replace("<", "&lt;")
-                .Replace(">","&gt;");
-        */
+                .Replace(">", "&gt;");
         
+        
+        static string toClassNameId( string className ) =>
+            className
+                .Replace("<", "_")
+                .Replace(">", "_")
+                .Replace(",", "_")
+                .Replace(" ", "_");
+        
+        /*
         static string escapeClassName( string className ) =>
              '`'
              + className
                   .Replace("<", "&lt;")
-                  .Replace(">","&gt;")
+                  .Replace(">", "&gt;")
              + '`';
+        */
         
         static string? ToClassifier(CodeAnalysisMetricData member) =>
             (member.Symbol.IsStatic, member.Symbol.IsAbstract) switch
