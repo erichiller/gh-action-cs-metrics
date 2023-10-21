@@ -52,9 +52,13 @@ static class CodeAnalysisMetricDataExtensions
         StringBuilder builder = new("classDiagram");
         builder.AppendLine();
 
-        className = className.Contains(".")
-            ? className.Substring(className.IndexOf(".") + 1)
-            : className;
+        className = "`"
+            + ( className.Contains(".")
+                    ? className.Substring(className.IndexOf(".") + 1)
+                    : className
+              ).Replace("<", "&lt;")
+               .Replace(">","&gt;")
+            + "`";
 
         if (classMetric.Symbol is ITypeSymbol typeSymbol &&
             typeSymbol.Interfaces.Length > 0)
@@ -171,9 +175,9 @@ static class CodeAnalysisMetricDataExtensions
 
         builder.AppendLine("}");
 
-        var mermaidCode = builder.ToString();
-            //.Replace("<", "~")
-            //.Replace(">", "~");
+        var mermaidCode = builder.ToString()
+            .Replace("<", "~")
+            .Replace(">", "~");
 
         return mermaidCode;
     }
