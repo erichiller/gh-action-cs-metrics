@@ -192,17 +192,19 @@ static class CodeAnalysisMetricDataExtensions
 
             return $"{accessModifier}{member.ToDisplayName().Replace($"{className}.", "")}";
         }
-
-        foreach (var member
-            in classMetric.Children.OrderBy(
+        
+        var members = classMetric.Children.OrderBy(
                m => m.Symbol.Kind switch
                {
                    SymbolKind.Field => 1,
                    SymbolKind.Property => 2,
                    SymbolKind.Method => 3,
                    _ => 4
-               }))
-        {
+               }).ToArray();
+        if ( members.Length == 0 ){
+            builder.AppendLine("    "); // empty line for empty Type
+        }
+        foreach (var member in members ) {
             _ = member.Symbol.Kind switch
             {
                 SymbolKind.Field => builder.AppendLine(
