@@ -81,7 +81,7 @@ static class CodeAnalysisMetricDataExtensions
                 string interfaceName = @interface.Name;
                 if (@interface.IsGenericType) {
                     var typeArgs = string.Join(",", @interface.TypeArguments.Select(ta => ta.Name));
-                    interfaceName = $"{@interface.Name}~{typeArgs}~";
+                    interfaceName = $"{@interface.Name}<{typeArgs}>";
                 }
                 builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(className)} : implements"); 
                 
