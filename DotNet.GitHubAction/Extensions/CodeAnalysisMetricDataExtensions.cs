@@ -111,7 +111,8 @@ static class CodeAnalysisMetricDataExtensions
                 .Replace("<", "_")
                 .Replace(">", "_")
                 .Replace(",", "_")
-                .Replace(" ", "_");
+                .Replace(" ", "_")
+                .Replace("~", "_");
         
         /*
         static string escapeClassName( string className ) =>
@@ -182,7 +183,7 @@ static class CodeAnalysisMetricDataExtensions
                     // 2 is hardcoded for the space and "." characters
                     var index = method.IndexOf(" ") + 2 + className.Length;
                     var methodSignature = method.Substring(index);
-                    return $"{accessModifier}{methodSignature}{ToClassifier(member)} {match.Groups["returnType"]}";
+                    return $"{accessModifier}{classNameToDisplay(methodSignature)}{ToClassifier(member)} {classNameToDisplay(match.Groups["returnType"])}";
                 }
             }
 
