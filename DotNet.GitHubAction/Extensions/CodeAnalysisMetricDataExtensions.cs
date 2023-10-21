@@ -89,14 +89,14 @@ static class CodeAnalysisMetricDataExtensions
                     class {{toClassNameId(interfaceName)}} ["{{classNameToDisplay(interfaceName)}}"] {
                         <<interface>>
                     }
-                    """;
+                    """ );
             }
         }
 
         builder.AppendLine(
             $$"""
             class {{toClassNameId(className)}} ["{{classNameToDisplay(className)}}"] {
-            """;
+            """ );
             
         
         
