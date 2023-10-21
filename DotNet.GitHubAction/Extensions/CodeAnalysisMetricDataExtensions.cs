@@ -202,9 +202,7 @@ static class CodeAnalysisMetricDataExtensions
 
         builder.AppendLine("}");
 
-        var mermaidCode = builder.ToString()
-            .Replace("<", "~")
-            .Replace(">", "~");
+        var mermaidCode = builder.ToString();
 
         return mermaidCode;
     }
