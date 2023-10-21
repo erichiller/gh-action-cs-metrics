@@ -55,12 +55,23 @@ static class CodeAnalysisMetricDataExtensions
         className = className.Contains(".")
                     ? className.Substring(className.IndexOf(".") + 1)
                     : className;
+        /*
+        string classNameId = className
+                .Replace("<", "_")
+                .Replace(">", "_")
+                .Replace(",", "_")
+                .Replace(" ", "_");
+        string classNameDisplay = className
+                .Replace("<", "&lt;")
+                .Replace(">","&gt;");
+        
         string classNameEscaped = 
             "`"
             + className
                 .Replace("<", "&lt;")
                 .Replace(">","&gt;")
             + "`";
+        */
 
         if (classMetric.Symbol is ITypeSymbol typeSymbol &&
             typeSymbol.Interfaces.Length > 0)
@@ -71,18 +82,32 @@ static class CodeAnalysisMetricDataExtensions
                 {
                     var typeArgs = string.Join(",", @interface.TypeArguments.Select(ta => ta.Name));
                     var name = $"{@interface.Name}~{typeArgs}~";
-                    builder.AppendLine($"{name} <|-- {className} : implements");
+                    builder.AppendLine($"{escapeClassName(name)} <|-- {escapeClassName(className)} : implements");
                 }
                 else
                 {
                     var name = @interface.Name;
-                    builder.AppendLine($"{name} <|-- {className} : implements"); 
+                    builder.AppendLine($"{escapeClassName(name)} <|-- {escapeClassName(className)} : implements"); 
                 }
             }
         }
 
-        builder.AppendLine($"class {classNameEscaped}{{");
-
+        builder.AppendLine($"class {escapeClassName(className)}{{");
+        
+        /*
+        static string? classNameToDisplay( string className ) =>
+             className
+                .Replace("<", "&lt;")
+                .Replace(">","&gt;");
+        */
+        
+        static string escapeClassName( string className ) =>
+             '`'
+             + className
+                  .Replace("<", "&lt;")
+                  .Replace(">","&gt;")
+             + '`';
+        
         static string? ToClassifier(CodeAnalysisMetricData member) =>
             (member.Symbol.IsStatic, member.Symbol.IsAbstract) switch
             {
