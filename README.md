@@ -9,3 +9,7 @@
 - <https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
 
 - [Code Metrics](https://aka.ms/dotnet/code-metrics)
+
+- Mermaid Issue: [Nested generics on ClassDiagram #4937](https://github.com/mermaid-js/mermaid/issues/4937)
+
+https://github.com/mermaid-js/mermaid/issues/4937
