@@ -64,7 +64,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
     // ::set-output deprecated as mentioned in https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
     var githubOutputFile = Environment.GetEnvironmentVariable("GITHUB_OUTPUT", EnvironmentVariableTarget.Process);
     if (!String.IsNullOrWhiteSpace(githubOutputFile)) {
-        await using var textWriter = new StreamWriter(githubOutputFile!, true, Encoding.UTF8);
+        await using var textWriter = new StreamWriter(githubOutputFile, true, Encoding.UTF8);
         textWriter.WriteLine($"updated-metrics={updatedMetrics}");
         textWriter.WriteLine($"summary-title={title}");
         textWriter.WriteLine(
