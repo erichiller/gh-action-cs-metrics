@@ -15,14 +15,17 @@ static class CodeMetricsReportExtensions
         document.AppendHeader("Code Metrics", 1);
 
         document.AppendParagraph(
-            $"This file is dynamically maintained by a bot, *please do not* edit this by hand. It represents various [code metrics](https://aka.ms/dotnet/code-metrics), such as cyclomatic complexity, maintainability index, and so on.");
+            //$"This file is dynamically maintained by a bot, *please do not* edit this by hand. It represents various [code metrics](https://aka.ms/dotnet/code-metrics), such as cyclomatic complexity, maintainability index, and so on.");
+           $"This file represents various [code metrics](https://aka.ms/dotnet/code-metrics), such as cyclomatic complexity, maintainability index, and so on.");
 
         List<(string Id, string ClassName, string MermaidCode)> classDiagrams = new();
+        Dictionary<string, Dictionary<string, TypeMermaidInfo>> combinedDiagramInfo = new();
         foreach ((string filePath, CodeAnalysisMetricData assemblyMetric)
             in metricData.OrderBy(md => md.Key))
         {
             var (assemblyId, assemblyDisplayName, assemblyLink, assemblyHighestComplexity) =
                 ToIdAndAnchorPair(assemblyMetric);
+            // combinedDiagramInfo[ assemblyDisplayName ] = new Dictionary<string, TypeMermaidInfo>();
 
             document.AppendParagraph($"<div id='{assemblyId}'></div>");
             document.AppendHeader($"{assemblyDisplayName} {assemblyHighestComplexity.emoji}", 2);
@@ -62,8 +65,10 @@ static class CodeMetricsReportExtensions
                     .OrderBy(md => md.Symbol.Name))
                 {
                     var (classId, classSymbolName, classLink, namedTypeHighestComplexity) = ToIdAndAnchorPair(classMetric);
+                    // combinedDiagramInfo[ assemblyDisplayName ][ classSymbolName ] = new List();
                     OpenCollapsibleSection(
                         document, classId, classSymbolName, namedTypeHighestComplexity.emoji);
+                    
 
                     document.AppendList(
                         new MarkdownTextListItem($"The `{classSymbolName}` contains {classMetric.Children.Length} members."),
@@ -94,7 +99,7 @@ static class CodeMetricsReportExtensions
                         var id = $"{encodedName}-class-diagram";
                         var linkToClassDiagram = $"<a href=\"#{id}\">🔗 to `{encodedName}` class diagram</a>";
                         document.AppendParagraph(linkToClassDiagram);
-                        classDiagrams.Add((id, classSymbolName, classMetric.ToMermaidClassDiagram(classSymbolName)));
+                        classDiagrams.Add((id, classSymbolName, classMetric.ToMermaidClassDiagram(classSymbolName, combinedDiagramInfo)));
                     }
 
                     document.AppendParagraph(namespaceLink); // Links back to the parent namespace in the MD doc
