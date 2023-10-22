@@ -94,8 +94,10 @@ static class CodeAnalysisMetricDataExtensions {
     /// <param name="combinedDiagramInfo">
     ///     Namespace -> TypeName -> members
     /// </param>
+    
     internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, string className, string namespaceSymbolName, CombinedMermaidDiagramInfo combinedDiagramInfo) {
         // https://mermaid-js.github.io/mermaid/#/classDiagram
+        // https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/schemas/config.schema.yaml#L168
         /* If title is desired, add like:
         ```mermaid
         ---
