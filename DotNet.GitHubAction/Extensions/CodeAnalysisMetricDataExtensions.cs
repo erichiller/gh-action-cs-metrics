@@ -3,14 +3,63 @@ using System.Text.RegularExpressions;
 
 namespace DotNet.GitHubAction.Extensions;
 
+
+public class MermaidTypeInfo {
+    public string DiagramNodeId { get; init; }
+    
+    public HashSet<string> Modifiers { get; } = new();
+    
+    public HashSet<string> ImplementedTypes { get; } = new();
+    
+    public string Name { get; init; }
+    
+    public string Namespace { get; set; }
+    
+    public HashSet<string> Members { get; } = new ();
+}
+
+
+public class CombinedMermaidDiagramInfo {
+
+    public Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new();
+    
+    public Add( string assemblyDisplayName, string typeName){ // , IList<string> members 
+        if( !combinedDiagramInfo.ContainsKey( assemblyDisplayName ) ){
+            combinedDiagramInfo[ assemblyDisplayName ] = new Dictionary<string, TypeMermaidInfo>();
+        }
+        if( !combinedDiagramInfo[assemblyDisplayName].ContainsKey( typeName ) ){
+            combinedDiagramInfo[ assemblyDisplayName ][ typeName ] = 
+                new TypeMermaidInfo {
+                    Namespace = assemblyDisplayName,
+                    Name = typeName
+                };
+        }
+        
+    }
+    // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
+    public AddInterface( string assemblyDisplayName, string interfaceName, string? implementationTypeName = null ){
+        this.Add( assemblyDisplayName, interfaceName );
+        combinedDiagramInfo[ assemblyDisplayName ][ interfaceName ].Modifiers.TryAdd( "interface" );
+        if ( implementationTypeName is {} t ){
+            this.Add( assemblyDisplayName, t );
+            combinedDiagramInfo[ assemblyDisplayName ][ interfaceName ].ImplementedTypes.TryAdd( interfaceName );
+        }
+    }
+    
+    public AddMember( string assemblyDisplayName, string typeName, string memberLine ){
+        this.Add( assemblyDisplayName, typeName );
+        combinedDiagramInfo[ assemblyDisplayName ][ typeName ].Members.TryAdd( memberLine );
+    }
+}
+
 static class CodeAnalysisMetricDataExtensions {
     internal static string ToCyclomaticComplexityEmoji(this CodeAnalysisMetricData metric) =>
         metric.CyclomaticComplexity switch {
             >= 0 and <= 7   => "✅",  // ✅ (was ✔️)
-            8 or 9          => "⚠️", // ⚠️
-            10 or 11        => "☢️", // ☢️
+            8 or 9          => "⚠️",  // ⚠️
+            10 or 11        => "☢️",  // ☢️
             >= 12 and <= 14 => "❌",  // ❌
-            _               => "🤯"  // 🤯
+            _               => "🤯"   // 🤯
         };
 
     internal static int CountNamespaces(this CodeAnalysisMetricData metric) =>
@@ -41,8 +90,22 @@ static class CodeAnalysisMetricDataExtensions {
                   source => childSelector(source).Flatten(childSelector))
               .Concat(parent);
 
-    internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, string className) {
+    ///
+    /// <param name="combinedDiagramInfo">
+    ///     Namespace -> TypeName -> members
+    /// </param>
+    internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, string className, string namespaceSymbolName, CombinedMermaidDiagramInfo combinedDiagramInfo) {
         // https://mermaid-js.github.io/mermaid/#/classDiagram
+        /* If title is desired, add like:
+        ```mermaid
+        ---
+        title: Bank example
+        ---
+        %%{init: { 
+            'fontFamily': 'monospace'
+        } }%%
+        classDiagram
+        */
         StringBuilder builder = new (
         """
         %%{init: { 
@@ -51,10 +114,15 @@ static class CodeAnalysisMetricDataExtensions {
         classDiagram
         """ );
         builder.AppendLine();
+        
 
         className = className.Contains(".")
             ? className[(className.IndexOf(".", StringComparison.Ordinal) + 1)..]
             : className;
+        
+        
+        // string classNameFQ = classMetric.ToDisplayName();
+        combinedDiagramInfo.Add( namespaceSymbolName, className );
 
         if (classMetric.Symbol is ITypeSymbol typeSymbol &&
             typeSymbol.Interfaces.Length > 0) {
@@ -71,6 +139,7 @@ static class CodeAnalysisMetricDataExtensions {
                                          <<interface>>
                                      }
                                      """);
+                combinedDiagramInfo.AddInterface( namespaceSymbolName, interfaceName, className );
             }
         }
 
@@ -178,18 +247,15 @@ static class CodeAnalysisMetricDataExtensions {
             builder.AppendLine("    "); // empty line for empty Type
         }
         foreach (var member in members) {
-            _ = member.Symbol.Kind switch {
-                    SymbolKind.Field => builder.AppendLine(
-                        $"    {toMemberSafeName(member, className)}{ToClassifier(member)}"),
-
-                    SymbolKind.Property => builder.AppendLine(
-                        $"    {toMemberSafeName(member, className)}{ToClassifier(member)}"),
-
-                    SymbolKind.Method => builder.AppendLine(
-                        $"    {toMemberSafeName(member, className)}"),
-
+            string memberLine = member.Symbol.Kind switch {
+                    SymbolKind.Field    => $"    {toMemberSafeName(member, className)}{ToClassifier(member)}",
+                    SymbolKind.Property => $"    {toMemberSafeName(member, className)}{ToClassifier(member)}",
+                    SymbolKind.Methodn  => $"    {toMemberSafeName(member, className)}",
                     _ => null
                 };
+            builder.AppendLine( memberLine );
+            
+            combinedDiagramInfo.AddMember( namespaceSymbolName, className, memberLine );
         }
 
         builder.AppendLine("}");
