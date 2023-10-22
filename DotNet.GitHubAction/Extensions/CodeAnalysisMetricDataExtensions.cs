@@ -166,7 +166,19 @@ public class CombinedMermaidDiagramInfo {
         CombinedInfo[assemblyDisplayName][interfaceName].Modifiers.Add("interface");
         if (implementationTypeName is { } t) {
             this.Add(assemblyDisplayName, t);
-            CombinedInfo[assemblyDisplayName][interfaceName].ImplementedTypes.Add(interfaceName);
+            CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
+        }
+    }
+    // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
+    public void AddBase(string assemblyDisplayName, ISymbol baseTypeSymbol, string? implementationTypeName = null) {
+        string baseTypeName = baseTypeSymbol.ToDisplayName();
+        this.Add(assemblyDisplayName, baseTypeName);
+        if (baseTypeSymbol.IsAbstract) {
+            CombinedInfo[assemblyDisplayName][baseTypeName].Modifiers.Add("interface");
+        }
+        if (implementationTypeName is { } t) {
+            this.Add(assemblyDisplayName, t);
+            CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(baseTypeName);
         }
     }
 
@@ -265,6 +277,10 @@ static class CodeAnalysisMetricDataExtensions {
 
         combinedDiagramInfo.Add(namespaceSymbolName, className);
 
+        if (classMetric.Symbol is ITypeSymbol { BaseType: {Kind: SymbolKind.NamedType} baseType }) {
+            singleType.ImplementedTypes.Add(baseType.ToDisplayString());
+            combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
+        }
         if (classMetric.Symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
             foreach (var @interface in typeSymbol.Interfaces) {
                 string interfaceName = @interface.Name;
