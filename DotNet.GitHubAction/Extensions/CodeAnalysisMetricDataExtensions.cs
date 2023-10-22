@@ -5,18 +5,25 @@ namespace DotNet.GitHubAction.Extensions;
 public record MemberMermaidInfo(ISymbol Symbol) {
     public string     Name => Symbol.ToDisplayName();
     public SymbolKind Kind => Symbol.Kind;
+
+    public ITypeSymbol ReturnType => Symbol switch {
+                                         IMethodSymbol method     => method.ReturnType,
+                                         IPropertySymbol property => property.Type,
+                                         IFieldSymbol field       => field.Type,
+                                         _ => throw new Exception()
+                                     };
 }
 
 public class TypeMermaidInfo {
-    public string DiagramNodeId { get; init; }
+    public string DiagramNodeId => toClassNameId(this.Name);
 
     public HashSet<string> Modifiers { get; } = new ();
 
     public HashSet<string> ImplementedTypes { get; } = new ();
 
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
-    public string Namespace { get; set; }
+    public required string Namespace { get; set; }
 
     public HashSet<MemberMermaidInfo> Members { get; } = new ();
 
@@ -26,19 +33,21 @@ public class TypeMermaidInfo {
 
         foreach (var interfaceName in this.ImplementedTypes) {
             builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
-
-            builder.AppendLine($$"""
-                                 class {{toClassNameId(interfaceName)}} ["{{classNameToDisplay(interfaceName)}}"] {
-                                     <<interface>>
-                                 }
-                                 """);
+//
+//             builder.AppendLine($$"""
+//                                  class {{toClassNameId(interfaceName)}} ["{{classNameToDisplay(interfaceName)}}"] {
+//                                      <<interface>>
+//                                  }
+//                                  """);
         }
 
         builder.AppendLine(
             $$"""
-              class {{toClassNameId(this.Name)}} ["{{classNameToDisplay(this.Name)}}"] {
+              class {{this.DiagramNodeId}} ["{{classNameToDisplay(this.Name)}}"] {
               """);
-
+        foreach (var modifier in this.Modifiers) {
+            builder.AppendLine($"    <<{modifier}>>");
+        }
 
         var members = this.Members.OrderBy(
             m => m.Symbol.Kind switch {
@@ -107,7 +116,6 @@ public class TypeMermaidInfo {
         var accessModifier = ToAccessModifier(member);
         if (member is IMethodSymbol { Kind: SymbolKind.Method } methodSymbol) {
             var methodName = member.ToDisplayName();
-            // var ctorMethod = $"{className}.{className}";
             if (methodSymbol.MethodKind == MethodKind.Constructor) {
                 var ctor = methodName.Substring(methodName.IndexOf("(", StringComparison.Ordinal));
                 return $"{accessModifier}.ctor{ctor} {className}";
@@ -169,6 +177,7 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
         }
     }
+
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
     public void AddBase(string assemblyDisplayName, ISymbol baseTypeSymbol, string? implementationTypeName = null) {
         string baseTypeName = baseTypeSymbol.ToDisplayName();
@@ -277,7 +286,7 @@ static class CodeAnalysisMetricDataExtensions {
 
         combinedDiagramInfo.Add(namespaceSymbolName, className);
 
-        if (classMetric.Symbol is ITypeSymbol { BaseType: {Kind: SymbolKind.NamedType} baseType }) {
+        if (classMetric.Symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
             singleType.ImplementedTypes.Add(baseType.ToDisplayString());
             combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
         }
