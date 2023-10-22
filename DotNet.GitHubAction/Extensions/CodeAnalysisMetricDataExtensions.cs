@@ -23,7 +23,7 @@ public class CombinedMermaidDiagramInfo {
 
     public Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new();
     
-    public Add( string assemblyDisplayName, string typeName){ // , IList<string> members 
+    public void Add( string assemblyDisplayName, string typeName){ // , IList<string> members 
         if( !combinedDiagramInfo.ContainsKey( assemblyDisplayName ) ){
             combinedDiagramInfo[ assemblyDisplayName ] = new Dictionary<string, TypeMermaidInfo>();
         }
@@ -37,7 +37,7 @@ public class CombinedMermaidDiagramInfo {
         
     }
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
-    public AddInterface( string assemblyDisplayName, string interfaceName, string? implementationTypeName = null ){
+    public void AddInterface( string assemblyDisplayName, string interfaceName, string? implementationTypeName = null ){
         this.Add( assemblyDisplayName, interfaceName );
         combinedDiagramInfo[ assemblyDisplayName ][ interfaceName ].Modifiers.TryAdd( "interface" );
         if ( implementationTypeName is {} t ){
@@ -46,7 +46,7 @@ public class CombinedMermaidDiagramInfo {
         }
     }
     
-    public AddMember( string assemblyDisplayName, string typeName, string memberLine ){
+    public void AddMember( string assemblyDisplayName, string typeName, string memberLine ){
         this.Add( assemblyDisplayName, typeName );
         combinedDiagramInfo[ assemblyDisplayName ][ typeName ].Members.TryAdd( memberLine );
     }
