@@ -43,7 +43,13 @@ static class CodeAnalysisMetricDataExtensions {
 
     internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, string className) {
         // https://mermaid-js.github.io/mermaid/#/classDiagram
-        StringBuilder builder = new ("classDiagram");
+        StringBuilder builder = new (
+        """
+        %%{init: { 
+            'fontFamily': 'monospace'
+        } }%%
+        classDiagram
+        """ );
         builder.AppendLine();
 
         className = className.Contains(".")
