@@ -121,7 +121,7 @@ static class CodeMetricsReportExtensions {
         document.AppendHeader("Metric definitions", 2);
 
         MarkdownList markdownList = new ();
-        foreach ((string columnHeader, string defintion)
+        foreach ((string columnHeader, string definition)
                  in new (string, string)[] {
                      ("Maintainability index", "Measures ease of code maintenance. Higher values are better."),
                      ("Cyclomatic complexity", "Measures the number of branches. Lower values are better."),
@@ -131,7 +131,7 @@ static class CodeMetricsReportExtensions {
                      ("Lines of executable code", "Approximates the lines of executable code. Lower values are better.")
                  }) {
             MarkdownText header = new ($"**{columnHeader}**");
-            MarkdownText text   = new (defintion);
+            MarkdownText text   = new (definition);
 
             markdownList.AddItem($"{header}: {text}");
         }
@@ -161,6 +161,16 @@ static class CodeMetricsReportExtensions {
         // document.AppendParagraph($"<div id=\"{id}\"></div>");
         document.AppendHeader("All class diagrams", 2);
         document.AppendCode("mermaid", combinedDiagramInfo.ToMermaidDiagram());
+        
+        // KILL --- temporary / testing
+        System.IO.File.WriteAllText( "combined_mermaid.md",
+            $$"""
+             # Diagram of all Types
+             
+             ```mermaid
+             {{combinedDiagramInfo.ToMermaidDiagram()}}
+             ```
+             """ );
     }
 
     static void AppendMaintainedByBotMessage(MarkdownDocument document) =>

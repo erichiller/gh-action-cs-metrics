@@ -3,99 +3,38 @@
 namespace DotNet.GitHubAction.Extensions;
 
 public record MemberMermaidInfo(ISymbol Symbol) {
-    public string     Name => Symbol.ToDisplayName();
-    public SymbolKind Kind => Symbol.Kind;
+    public string     SignatureLine => Symbol.ToDisplayName();
+    public SymbolKind Kind          => Symbol.Kind;
+
+    public string ClassName => this.Symbol.ContainingType.ToDisplayName().Split('.')[^1];
+    /*
+     * this.Symbol switch {
+       IFieldSymbol field         => field.ContainingType.ToDisplayName(),
+       IPropertySymbol prop       => prop.ContainingType.ToDisplayName(),
+       IMethodSymbol methodSymbol => methodSymbol.ContainingType.ToDisplayName(),
+       _                          => "??????"
+       };
+     */
 
     public ITypeSymbol ReturnType => Symbol switch {
                                          IMethodSymbol method     => method.ReturnType,
                                          IPropertySymbol property => property.Type,
                                          IFieldSymbol field       => field.Type,
-                                         _ => throw new Exception()
+                                         _                        => throw new Exception()
                                      };
-}
 
-public class TypeMermaidInfo {
-    public string DiagramNodeId => toClassNameId(this.Name);
-
-    public HashSet<string> Modifiers { get; } = new ();
-
-    public HashSet<string> ImplementedTypes { get; } = new ();
-
-    public required string Name { get; init; }
-
-    public required string Namespace { get; set; }
-
-    public HashSet<MemberMermaidInfo> Members { get; } = new ();
-
-
-    public string ToMermaidClass() {
-        StringBuilder builder = new ();
-
-        foreach (var interfaceName in this.ImplementedTypes) {
-            builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
-//
-//             builder.AppendLine($$"""
-//                                  class {{toClassNameId(interfaceName)}} ["{{classNameToDisplay(interfaceName)}}"] {
-//                                      <<interface>>
-//                                  }
-//                                  """);
-        }
-
-        builder.AppendLine(
-            $$"""
-              class {{this.DiagramNodeId}} ["{{classNameToDisplay(this.Name)}}"] {
-              """);
-        foreach (var modifier in this.Modifiers) {
-            builder.AppendLine($"    <<{modifier}>>");
-        }
-
-        var members = this.Members.OrderBy(
-            m => m.Symbol.Kind switch {
-                     SymbolKind.Field    => 1,
-                     SymbolKind.Property => 2,
-                     SymbolKind.Method   => 3,
-                     _                   => 4
-                 }).ToArray();
-        if (members.Length == 0) {
-            builder.AppendLine("    "); // empty line for empty Type
-        }
-        foreach (var member in members) {
-            string? memberLine = member.Symbol.Kind switch {
-                                     SymbolKind.Field    => $"    {toMemberSafeName(member.Symbol, this.Name)}{ToClassifier(member.Symbol)}",
-                                     SymbolKind.Property => $"    {toMemberSafeName(member.Symbol, this.Name)}{ToClassifier(member.Symbol)}",
-                                     SymbolKind.Method   => $"    {toMemberSafeName(member.Symbol, this.Name)}",
-                                     _                   => null
-                                 };
-            builder.AppendLine(memberLine);
-        }
-        builder.AppendLine("}");
-
-
-        return builder.ToString();
+    public string? ToMermaidMemberLine() {
+        string? memberLine = this.Symbol.Kind switch {
+                                 SymbolKind.Field    => $"    {toMemberSafeName(this.Symbol, this.ClassName)}{ToClassifier(this.Symbol)}",
+                                 SymbolKind.Property => $"    {toMemberSafeName(this.Symbol, this.ClassName)}{ToClassifier(this.Symbol)}",
+                                 SymbolKind.Method   => $"    {toMemberSafeName(this.Symbol, this.ClassName)}",
+                                 _                   => null
+                             };
+        return memberLine;
     }
 
-
-    static string toMemberSafeName(ISymbol member, string className) =>
-        classNameToDisplay(ToMemberName(member, className));
-
-    static string toClassNameId(string className) =>
-        className
-            .Replace("<", "_")
-            .Replace(">", "_")
-            .Replace(",", "_")
-            .Replace(" ", "_")
-            .Replace("~", "_");
-
-    static string? classNameToDisplay(string className) =>
-        className
-            .Replace("<", "&lt;")
-            .Replace(">", "&gt;");
-
-
-    static string? ToClassifier(ISymbol member) =>
-        (member.IsStatic, member.IsAbstract) switch {
-            (true, _) => "$", (_, true) => "*", _ => null
-        };
+    static string? toMemberSafeName(ISymbol member, string className) =>
+        Extensions.TypeMermaidInfo.replaceAngleBracketsWithHtmlCodes(ToMemberName(member, className));
 
     static string ToAccessModifier(ISymbol member) {
         // TODO: figure out how to get access modifiers.
@@ -111,6 +50,12 @@ public class TypeMermaidInfo {
                    _                    => "+"
                };
     }
+
+    static string? ToClassifier(ISymbol member) =>
+        (member.IsStatic, member.IsAbstract) switch {
+            (true, _) => "$", (_, true) => "*", _ => null
+        };
+
 
     static string ToMemberName(ISymbol member, string className) {
         var accessModifier = ToAccessModifier(member);
@@ -139,6 +84,9 @@ public class TypeMermaidInfo {
             if (returnTypeRegex.Match(methodName) is { Success: true } match) {
                 // 2 is hardcoded for the space and "." characters
                 index           = methodName.IndexOf($" {className}.", StringComparison.Ordinal) + 2 + className.Length;
+                if (index > methodName.Length) {
+                    throw new Exception();
+                }
                 methodSignature = methodName.Substring(index);
                 var memberClassifier = ToClassifier(member);
                 returnType = match.Groups["returnType"].Value;
@@ -149,6 +97,76 @@ public class TypeMermaidInfo {
 
         return $"{accessModifier}{member.ToDisplayName().Replace($"{className}.", "")}";
     }
+}
+
+public class TypeMermaidInfo {
+    public string DiagramNodeId => toClassNameId(this.Name);
+
+    public HashSet<string> Modifiers { get; } = new ();
+
+    public HashSet<string> ImplementedTypes { get; } = new ();
+
+    public required string Name { get; init; }
+
+    public required string Namespace { get; set; }
+
+    public HashSet<MemberMermaidInfo> Members { get; } = new ();
+
+
+    public string ToMermaidClass() {
+        StringBuilder builder = new ();
+
+        foreach (var interfaceName in this.ImplementedTypes) {
+            builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
+        }
+        foreach (var member in this.Members) {
+            if (member.ReturnType.ContainingNamespace?.ToDisplayString().StartsWith("System") != true) {
+                builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
+            }
+        }
+
+        builder.AppendLine(
+            $$"""
+              class {{this.DiagramNodeId}} ["{{replaceAngleBracketsWithHtmlCodes(this.Name)}}"] {
+              """);
+        foreach (var modifier in this.Modifiers) {
+            builder.AppendLine($"    <<{modifier}>>");
+        }
+
+        var members = this.Members.OrderBy(
+            m => m.Symbol.Kind switch {
+                     SymbolKind.Field    => 1,
+                     SymbolKind.Property => 2,
+                     SymbolKind.Method   => 3,
+                     _                   => 4
+                 }).ToArray();
+        if (members.Length == 0) {
+            builder.AppendLine("    "); // empty line for empty Type
+        }
+        foreach (var member in members) {
+            builder.AppendLine(member.ToMermaidMemberLine());
+        }
+        builder.AppendLine("}");
+
+
+        return builder.ToString();
+    }
+
+
+    static string toClassNameId(string className) =>
+        className
+            .Replace("<", "_")
+            .Replace(">", "_")
+            .Replace(",", "_")
+            .Replace(" ", "_")
+            .Replace("~", "_")
+            .Replace(".", "_")
+            .Replace("?", String.Empty);
+
+    internal static string? replaceAngleBracketsWithHtmlCodes(string className) =>
+        className
+            .Replace("<", "&lt;")
+            .Replace(">", "&gt;");
 }
 
 public class CombinedMermaidDiagramInfo {
@@ -320,7 +338,9 @@ static class CodeAnalysisMetricDataExtensions {
 
         return mermaidCode;
     }
+}
 
+internal static class SymbolExtensions {
     internal static string ToDisplayName(this CodeAnalysisMetricData metric) =>
         metric.Symbol.ToDisplayName();
 
