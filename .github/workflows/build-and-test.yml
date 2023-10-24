@@ -4,10 +4,11 @@
 name: 'Build & Test'
 
 on:
-  push:
+  #push:
     #branches: [ "master" ]
-  pull_request:
+  #pull_request:
     #branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,10 +20,20 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Restore dependencies
+      working-directory: ././DotNet.GitHubAction
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Run
+      #
+      run: dotnet run ./DotNet.GitHubAction/DotNet.GitHubAction.csproj -- \
+             --owner erichiller \
+             --name gh-action-cs-metrics \
+             --branch ${{ github.ref }} \
+             --dir ${{ './test/SampleProject' }} \
+             --workspace ${{ './test/SampleProject' }} 
+  
+#    - name: Build
+#      run: dotnet build --no-restore
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal
