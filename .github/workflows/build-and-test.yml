@@ -26,7 +26,8 @@ jobs:
       run: dotnet restore
     - name: Run
       working-directory: ./DotNet.GitHubAction
-      run: dotnet run -- \
+      run: |
+        dotnet run -- \
              --owner erichiller \
              --name gh-action-cs-metrics \
              --branch ${{ github.ref }} \
