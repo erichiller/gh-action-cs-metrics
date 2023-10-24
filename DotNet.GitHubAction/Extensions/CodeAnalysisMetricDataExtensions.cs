@@ -120,11 +120,11 @@ public class TypeMermaidInfo {
             builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
         }
         foreach (var member in this.Members) {
-            System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}" );
+            System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
+                                      $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}" );
             
-            System.Console.WriteLine( $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}" );
             string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
-            if ( ns is not {} || String.IsNullOrWhiteSpace(ns) || ns?.StartsWith("System") != true ) {
+            if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
             }
         }
