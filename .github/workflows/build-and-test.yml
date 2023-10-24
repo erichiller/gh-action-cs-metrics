@@ -22,7 +22,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      working-directory: ././DotNet.GitHubAction
+      working-directory: ./DotNet.GitHubAction
       run: dotnet restore
     - name: Run
       #
