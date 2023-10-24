@@ -6,5 +6,10 @@ public class Class1 {
 
 public Class2 {
     public required string StringProp { get; init; }
+    public string[] StringArrayProp { get; }
+}
 
+public ClassGeneric1<T> {
+    public T MyT { get; }
+    
 }
