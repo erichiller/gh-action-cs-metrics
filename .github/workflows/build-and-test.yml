@@ -25,13 +25,13 @@ jobs:
       working-directory: ./DotNet.GitHubAction
       run: dotnet restore
     - name: Run
-      #
-      run: dotnet run ./DotNet.GitHubAction/DotNet.GitHubAction.csproj -- \
+      working-directory: ./DotNet.GitHubAction
+      run: dotnet run -- \
              --owner erichiller \
              --name gh-action-cs-metrics \
              --branch ${{ github.ref }} \
-             --dir ${{ './test/SampleProject' }} \
-             --workspace ${{ './test/SampleProject' }} 
+             --dir ${{ '../test/SampleProject' }} \
+             --workspace ${{ '../test/SampleProject' }} 
   
 #    - name: Build
 #      run: dotnet build --no-restore
