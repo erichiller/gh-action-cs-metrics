@@ -124,7 +124,7 @@ public class TypeMermaidInfo {
             
             System.Console.WriteLine( $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}" );
             string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
-            if ( ns is not {} || String.IsNullOrWhitespace(ns) || ns?.StartsWith("System") != true ) {
+            if ( ns is not {} || String.IsNullOrWhiteSpace(ns) || ns?.StartsWith("System") != true ) {
                 builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
             }
         }
