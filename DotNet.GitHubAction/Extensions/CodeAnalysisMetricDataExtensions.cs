@@ -123,8 +123,8 @@ public class TypeMermaidInfo {
             System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}" );
             
             System.Console.WriteLine( $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}" );
-            
-            if (member.ReturnType.ContainingNamespace?.ToDisplayString().StartsWith("System") != true) {
+            string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
+            if ( ns is not {} || String.IsNullOrWhitespace(ns) || ns?.StartsWith("System") != true ) {
                 builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
             }
         }
