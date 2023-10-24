@@ -125,6 +125,13 @@ public class TypeMermaidInfo {
                                       $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
                                       $"member ReturnType GetType() = {member.ReturnType.GetType()}\n\t" );
             
+            if( member.ReturnType.Kind == SymbolKind.ArrayType ){
+                // TODO: draw relationship to element type
+                continue;
+            }
+            if( member.ReturnType.Kind == SymbolKind.TypeParameter ){
+                continue;
+            }
             string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 System.Console.WriteLine( $"====> Drawing relationship." );
