@@ -120,6 +120,7 @@ public class TypeMermaidInfo {
             builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
         }
         foreach (var member in this.Members) {
+            System.Console.WriteLine( $"member = {member.ReturnType.ContainingNamespace?.ToDisplayString()}" );
             if (member.ReturnType.ContainingNamespace?.ToDisplayString().StartsWith("System") != true) {
                 builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
             }
@@ -293,6 +294,12 @@ static class CodeAnalysisMetricDataExtensions {
         classDiagram
         */
         
+        /*
+        Name = Class1
+        ToDisplayString = SomeRoot.SampleProject.Class1
+        MinimallyQualifiedFormat = Class1
+        FullyQualifiedFormat = global::SomeRoot.SampleProject.Class1
+        */
         System.Console.WriteLine( "Name" + " = " +
             classMetric.Symbol.Name
         );
@@ -308,6 +315,9 @@ static class CodeAnalysisMetricDataExtensions {
         // System.Console.WriteLine( nameof(SymbolDisplayFormat.GlobalNamespaceStyle) + " = " +
         //     classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.GlobalNamespaceStyle ) 
         // );
+        System.Console.WriteLine( "ToDisplayName" + " = " +
+            classMetric.Symbol.ToDisplayName()
+        );
         
         
 
