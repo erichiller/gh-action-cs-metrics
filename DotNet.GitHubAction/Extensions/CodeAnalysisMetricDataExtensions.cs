@@ -292,6 +292,16 @@ static class CodeAnalysisMetricDataExtensions {
         } }%%
         classDiagram
         */
+        
+        System.Console.WriteLine( "Name" + " = " +
+            classMetric.Symbol.Name
+        );
+        System.Console.WriteLine( "ToDisplayString" + " = " +
+            classMetric.Symbol.ToDisplayString( ) 
+        );
+        System.Console.WriteLine( nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
+            classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) 
+        );
 
         className = className.Contains(".")
             ? className[(className.IndexOf(".", StringComparison.Ordinal) + 1)..]
