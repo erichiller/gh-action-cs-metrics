@@ -121,7 +121,9 @@ public class TypeMermaidInfo {
         }
         foreach (var member in this.Members) {
             System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
-                                      $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}" );
+                                      $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}\n\t" +
+                                      $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
+                                      $"member ReturnType GetType() = {member.ReturnType.GetType()}\n\t" );
             
             string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
