@@ -24,6 +24,9 @@ jobs:
     - name: Restore dependencies
       working-directory: ./DotNet.GitHubAction
       run: dotnet restore
+    - name: Test output
+      run: |
+        echo "summary-title=HELLO" >> $GITHUB_OUTPUT
     - name: Run
       working-directory: ./DotNet.GitHubAction
       run: |
