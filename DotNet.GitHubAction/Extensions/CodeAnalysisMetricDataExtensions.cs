@@ -120,7 +120,8 @@ public class TypeMermaidInfo {
             builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
         }
         foreach (var member in this.Members) {
-            System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
+            System.Console.WriteLine( "\n" +
+                                      $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
                                       $"member ContainingNamespace ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) = {member.ReturnType.ContainingNamespace?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}\n\t" +
                                       $"member ContainingNamespace ToDisplayName = {member.ReturnType.ContainingNamespace?.ToDisplayName()}\n\t" +
                                       $"member ContainingNamespace Name = {member.ReturnType.ContainingNamespace?.Name}\n\t" +
