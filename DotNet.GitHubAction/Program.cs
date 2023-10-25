@@ -70,6 +70,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
     // ::set-output deprecated as mentioned in https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
     var githubOutputFile = Environment.GetEnvironmentVariable("GITHUB_OUTPUT", EnvironmentVariableTarget.Process);
     if (!String.IsNullOrWhiteSpace(githubOutputFile)) {
+        System.Console.WriteLine( "Writing summary to: {githubOutputFile}" );
         await using var textWriter = new StreamWriter(githubOutputFile, true, Encoding.UTF8);
         textWriter.WriteLine($"updated-metrics={updatedMetrics}");
         textWriter.WriteLine($"summary-title={title}");
@@ -82,13 +83,13 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
         textWriter.WriteLine("summary-details<<EOF");
         textWriter.WriteLine(summary);
         textWriter.WriteLine("EOF");
-    }
-    else {
+    } else {
         Console.WriteLine($"::set-output name=updated-metrics::{updatedMetrics}");
         Console.WriteLine($"::set-output name=summary-title::{title}");
         Console.WriteLine($"::set-output name=summary-details::{summary}");
     }
-
+    
+    logger.LogDebug("Successfully exiting");
     Environment.Exit(0);
 }
 
