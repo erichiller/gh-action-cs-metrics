@@ -352,8 +352,8 @@ static class CodeAnalysisMetricDataExtensions {
                 System.Console.WriteLine( "INTERFACE:" );
                 printNames(implementedInterface);
                 if (implementedInterface.IsGenericType) {
-                    var typeArgs = string.Join(",", @interface.TypeArguments.Select(ta => ta.Name));
-                    interfaceName = $"{@interface.Name}<{typeArgs}>";
+                    var typeArgs = string.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
+                    interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                 }
                 singleType.ImplementedTypes.Add(interfaceName);
                 combinedDiagramInfo.AddInterface(namespaceSymbolName, interfaceName, className);
