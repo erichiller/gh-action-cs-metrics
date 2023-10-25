@@ -4,7 +4,12 @@ using System.Threading.Tasks;
 
 namespace SomeRoot.SampleProject;
 
-public class Class1 {
+
+public interface IIntFoo {
+    public int Foo { get; set; }
+}
+
+public class Class1 : IIntFoo {
     public int Foo { get; set; }
     
     public Class2 Class2Prop { get; }
