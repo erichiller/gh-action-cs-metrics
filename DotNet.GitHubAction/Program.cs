@@ -21,6 +21,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
     var                                        projects   = matcher.GetResultsInFullPath(inputs.Directory);
 
     foreach (var project in projects) {
+        System.Console.WriteLine( $"Analyzing project: {project}" );
         var metrics =
             await projectAnalyzer.AnalyzeAsync(
                 workspace, project, tokenSource.Token);
@@ -29,7 +30,8 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
             metricData[path] = metric;
         }
     }
-
+    
+    System.Console.WriteLine( $"Completed Analyzing projects" );
     var           updatedMetrics = false;
     var           title          = "";
     StringBuilder summary        = new ();
@@ -38,7 +40,8 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
         var fullPath   = Path.Combine(inputs.Directory, fileName);
         var logger     = Get<ILoggerFactory>(host).CreateLogger(nameof(StartAnalysisAsync));
         var fileExists = File.Exists(fullPath);
-
+        
+        System.Console.WriteLine( "{Updating} {FileName} markdown file with latest code metric data" );
         logger.LogInformation("{Updating} {FileName} markdown file with latest code metric data", (fileExists ? "Updating" : "Creating"), fileName);
 
         summary.AppendLine(
@@ -55,8 +58,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
             tokenSource.Token);
 
         updatedMetrics = true;
-    }
-    else {
+    } else {
         summary.Append("No metrics were determined.");
     }
 
