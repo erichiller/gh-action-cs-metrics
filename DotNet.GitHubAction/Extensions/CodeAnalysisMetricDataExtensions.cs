@@ -123,7 +123,7 @@ public class TypeMermaidInfo {
             System.Console.WriteLine( $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
                                       $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}\n\t" +
                                       $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
-                                      $"member ReturnType GetType() = {member.ReturnType.GetType()}\n\t" );
+                                      $"member ReturnType GetType() = {member.ReturnType.GetType()}" );
             
             if( member.ReturnType.Kind == SymbolKind.ArrayType ){
                 // TODO: draw relationship to element type
