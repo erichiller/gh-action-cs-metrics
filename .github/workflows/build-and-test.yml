@@ -24,6 +24,9 @@ jobs:
     - name: Restore dependencies
       working-directory: ./DotNet.GitHubAction
       run: dotnet restore
+    - name: Build sample project
+      working-directory: ./test/SampleProject
+      run: dotnet build
 #    - name: Test output
 #      id: test_output
 #      run: |
