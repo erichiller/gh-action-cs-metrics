@@ -89,7 +89,7 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
         Console.WriteLine($"::set-output name=summary-details::{summary}");
     }
     
-    logger.LogDebug("Successfully exiting");
+    // logger.LogDebug("Successfully exiting");
     Environment.Exit(0);
 }
 
