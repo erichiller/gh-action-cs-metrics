@@ -136,7 +136,8 @@ public class TypeMermaidInfo {
             if( member.ReturnType.Kind == SymbolKind.TypeParameter ){
                 continue;
             }
-            string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
+            // string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
+            string? ns = member.ReturnType.ContainingNamespace?.Name;
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 System.Console.WriteLine( $"====> Drawing relationship." );
                 builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
