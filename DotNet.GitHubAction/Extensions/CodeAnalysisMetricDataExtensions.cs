@@ -323,24 +323,11 @@ static class CodeAnalysisMetricDataExtensions {
         MinimallyQualifiedFormat = Class1
         FullyQualifiedFormat = global::SomeRoot.SampleProject.Class1
         */
-        System.Console.WriteLine( "Name" + " = " +
-            classMetric.Symbol.Name
-        );
-        System.Console.WriteLine( "ToDisplayString" + " = " +
-            classMetric.Symbol.ToDisplayString( ) 
-        );
-        System.Console.WriteLine( nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
-            classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) 
-        );
-        System.Console.WriteLine( nameof(SymbolDisplayFormat.FullyQualifiedFormat) + " = " +
-            classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat ) 
-        );
+        printNames(classMetric.Symbol);
         // System.Console.WriteLine( nameof(SymbolDisplayFormat.GlobalNamespaceStyle) + " = " +
         //     classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.GlobalNamespaceStyle ) 
         // );
-        System.Console.WriteLine( "ToDisplayName" + " = " +
-            classMetric.Symbol.ToDisplayName()
-        );
+        
         
         
 
@@ -360,9 +347,11 @@ static class CodeAnalysisMetricDataExtensions {
             combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
         }
         if (classMetric.Symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
-            foreach (var @interface in typeSymbol.Interfaces) {
-                string interfaceName = @interface.Name;
-                if (@interface.IsGenericType) {
+            foreach (var implementedInterface in typeSymbol.Interfaces) {
+                string interfaceName = implementedInterface.Name;
+                System.Console.WriteLine( "INTERFACE:" );
+                printNames(implementedInterface);
+                if (implementedInterface.IsGenericType) {
                     var typeArgs = string.Join(",", @interface.TypeArguments.Select(ta => ta.Name));
                     interfaceName = $"{@interface.Name}<{typeArgs}>";
                 }
@@ -388,6 +377,25 @@ static class CodeAnalysisMetricDataExtensions {
         var mermaidCode = CombinedMermaidDiagramInfo.CLASS_DIAGRAM_START_STRING + "\n" + singleType.ToMermaidClass();
 
         return mermaidCode;
+    }
+    
+    private void printNames( ISymbol symbol ){
+        
+        System.Console.WriteLine( "Name" + " = " +
+            symbol.Name
+        );
+        System.Console.WriteLine( "ToDisplayString" + " = " +
+            symbol.ToDisplayString( ) 
+        );
+        System.Console.WriteLine( nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
+            symbol.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) 
+        );
+        System.Console.WriteLine( nameof(SymbolDisplayFormat.FullyQualifiedFormat) + " = " +
+            symbol.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat ) 
+        );
+        System.Console.WriteLine( "ToDisplayName" + " = " +
+            symbol.ToDisplayName()
+        );
     }
 }
 
