@@ -379,7 +379,7 @@ static class CodeAnalysisMetricDataExtensions {
         return mermaidCode;
     }
     
-    private void printNames( ISymbol symbol ){
+    private static void printNames( ISymbol symbol ){
         
         System.Console.WriteLine( "Name" + " = " +
             symbol.Name
