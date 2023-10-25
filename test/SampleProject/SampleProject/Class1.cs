@@ -6,6 +6,8 @@ namespace SomeRoot.SampleProject;
 
 public class Class1 {
     public int Foo { get; set; }
+    
+    public Class2 Class2Prop { get; }
 }
 
 public class Class2 {
