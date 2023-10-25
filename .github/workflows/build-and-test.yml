@@ -39,10 +39,10 @@ jobs:
              --dir ${{ '../test/SampleProject' }} \
              --workspace ${{ '../test/SampleProject' }} 
     - name: Upload metrics markdown
-      run: |
-        ls -lah
-        ls -lah ./DotNet.GitHubAction
-        ls -lah ./test/SampleProject
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-metrics
+        path: './test/SampleProject/CODE_METRICS.md'
     #
 #    - name: Check Output
 #      run: |
