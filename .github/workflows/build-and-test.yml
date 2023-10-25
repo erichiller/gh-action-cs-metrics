@@ -25,9 +25,11 @@ jobs:
       working-directory: ./DotNet.GitHubAction
       run: dotnet restore
     - name: Test output
+      id: test_output
       run: |
         echo "summary-title=HELLO" >> $GITHUB_OUTPUT
     - name: Run
+      id: cs-metrics
       working-directory: ./DotNet.GitHubAction
       run: |
         dotnet run -- \
@@ -36,7 +38,12 @@ jobs:
              --branch ${{ github.ref }} \
              --dir ${{ '../test/SampleProject' }} \
              --workspace ${{ '../test/SampleProject' }} 
-  
+
+    - name: Check Output
+      run: |
+        echo ${{ steps.cs-metrics.outputs.summary-title }}
+        echo ${{ steps.test_output.outputs.summary-title }}
+        # echo "summary-title=HELLO" >> $GITHUB_OUTPUT
 #    - name: Build
 #      run: dotnet build --no-restore
 #    - name: Test
