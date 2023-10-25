@@ -136,6 +136,9 @@ public class TypeMermaidInfo {
             if( member.ReturnType.Kind == SymbolKind.TypeParameter ){
                 continue;
             }
+            
+            // FUTURE TODO: Add links based on collections element types
+            // FUTURE TODO: Add links based on generic type parameters type constraints?
             // string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
             string? ns = member.ReturnType.ContainingNamespace?.Name;
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
