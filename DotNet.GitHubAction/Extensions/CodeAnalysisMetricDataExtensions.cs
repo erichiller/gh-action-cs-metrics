@@ -242,6 +242,8 @@ public class CombinedMermaidDiagramInfo {
 
         foreach (var (namespaceName, types) in this.CombinedInfo) {
             // builder.AppendLine($"namespace {namespaceName} {{"); // TODO: GitHub's mermaid version doesn't support this ( as of 2023-10-22 )
+            System.Console.WriteLine($"drawing combined, namespace = '{namespaceName}'");
+            // TODO: FILTER OPTION HERE
             foreach (var type in types.Values) {
                 builder.AppendLine(type.ToMermaidClass());
             }
