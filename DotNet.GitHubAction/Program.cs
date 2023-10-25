@@ -9,6 +9,10 @@ static TService Get<TService>(IHost host)
 static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
     using ProjectWorkspace        workspace   = Get<ProjectWorkspace>(host);
     using CancellationTokenSource tokenSource = new ();
+    
+    var pEnv = Environment.GetEnvironmentVariable("GITHUB_OUTPUT", EnvironmentVariableTarget.Process);
+    var dEnv = Environment.GetEnvironmentVariable("GITHUB_OUTPUT");
+    System.Console.WriteLine( $"GITHUB_OUTPUT: p={pEnv} ; d={dEnv}" );
 
     Console.CancelKeyPress += delegate { tokenSource.Cancel(); };
 
