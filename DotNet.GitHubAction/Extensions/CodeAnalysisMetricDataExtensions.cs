@@ -200,7 +200,7 @@ public class TypeMermaidInfo {
             string? ns = member.ReturnType.ContainingNamespace?.Name;
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 System.Console.WriteLine( $"====> Drawing relationship." );
-                builder.AppendLine($"{member.ReturnType.ToClassNameId().TrimEnd('?'))l} <-- {this.DiagramNodeId} : {member.Symbol.Name}");
+                builder.AppendLine($"{member.ReturnType.ToMermaidNodeId().TrimEnd('?')} <-- {this.DiagramNodeId} : {member.Symbol.Name}");
             }
         }
 
