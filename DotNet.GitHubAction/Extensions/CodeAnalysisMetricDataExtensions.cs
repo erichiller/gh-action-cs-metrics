@@ -100,18 +100,26 @@ public record MemberMermaidInfo(ISymbol Symbol) {
 }
 
 public class TypeMermaidInfo {
-    public string DiagramNodeId => toClassNameId(this.Name);
+    public string DiagramNodeId => _symbol.ToMermaidNodeId();
 
     public HashSet<string> Modifiers { get; } = new ();
 
     public HashSet<string> ImplementedTypes { get; } = new ();
 
-    public required string Name { get; init; }
+    public string Name => _symbol.Name;
 
-    public required string Namespace { get; set; }
+    public string Namespace => _symbol.ContaingNamespace?.ToMermaidNodeId() ?? String.Empty;
 
     public HashSet<MemberMermaidInfo> Members { get; } = new ();
 
+    private INamedTypeSymbol _symbol;
+    
+    public ( ISymbol symbol ){
+        if( symbol is not INamedTypeSymbol namedTypeSymbol ){
+            throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
+        }
+        this._symbol = namedTypeSymbol;
+    }
 
     public string ToMermaidClass() {
         StringBuilder builder = new ();
