@@ -192,7 +192,7 @@ public class TypeMermaidInfo {
 }
 
 public class CombinedMermaidDiagramInfo {
-    public Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
+    private Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
 
     public void Add(string assemblyDisplayName, string typeName) {
         // , IList<string> members 
@@ -384,8 +384,11 @@ static class CodeAnalysisMetricDataExtensions {
         System.Console.WriteLine( "Name" + " = " +
             symbol.Name
         );
+        System.Console.WriteLine( "ToMermaidNodeId" + " = " +
+                                  symbol.ToMermaidNodeId( ) 
+        );
         System.Console.WriteLine( "ToDisplayString" + " = " +
-            symbol.ToDisplayString( ) 
+                                  symbol.ToDisplayString( ) 
         );
         System.Console.WriteLine( nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
             symbol.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) 
@@ -415,10 +418,18 @@ internal static class SymbolExtensions {
             _ => symbol.ToDisplayString()
         };
 
+    private static SymbolDisplayFormat _fqDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
+                                                                          genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
+
+    internal static string ToMermaidNodeId(this ISymbol symbol) =>
+        symbol.Kind switch {
+            SymbolKind.Assembly  => symbol.Name,
+            SymbolKind.NamedType => symbol.ToDisplayString(_fqDisplayFormat),
+            _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
+        };
+
     private static string getNamedTypeDisplayName(ISymbol symbol) {
-        StringBuilder minimalTypeName =
-            new (
-                symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
+        StringBuilder minimalTypeName = new (symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
 
         var containingType = symbol.ContainingType;
         while (containingType is not null) {
