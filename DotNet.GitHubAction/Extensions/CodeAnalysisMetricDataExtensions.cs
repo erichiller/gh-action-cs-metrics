@@ -174,7 +174,7 @@ public class TypeMermaidInfo {
         StringBuilder builder = new ();
 
         foreach (var interfaceName in this.ImplementedTypes) {
-            builder.AppendLine($"{toClassNameId(interfaceName)} <|-- {toClassNameId(this.Name)} : implements");
+            builder.AppendLine($"{SymbolExtensions.ToClassNameId(interfaceName)} <|-- {this.DiagramNodeId} : implements");
         }
         foreach (var member in this.Members) {
             System.Console.WriteLine( "\n" +
@@ -200,7 +200,7 @@ public class TypeMermaidInfo {
             string? ns = member.ReturnType.ContainingNamespace?.Name;
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 System.Console.WriteLine( $"====> Drawing relationship." );
-                builder.AppendLine($"{toClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {toClassNameId(this.Name)} : {member.Symbol.Name}");
+                builder.AppendLine($"{SymbolExtensions.ToClassNameId(member.ReturnType.ToDisplayName().TrimEnd('?'))} <-- {this.DiagramNodeId} : {member.Symbol.Name}");
             }
         }
 
