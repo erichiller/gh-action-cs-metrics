@@ -275,7 +275,7 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
         }
     }
-    */
+    
 
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
     public void AddBase(string assemblyDisplayName, ISymbol baseTypeSymbol, string? implementationTypeName = null) {
@@ -289,11 +289,13 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(baseTypeName);
         }
     }
+    
 
     public void AddMember(string assemblyDisplayName, string typeName, MemberMermaidInfo memberInfo) {
         this.Add(assemblyDisplayName, typeName);
         CombinedInfo[assemblyDisplayName][typeName].Members.Add(memberInfo);
     }
+    */
 
     public string ToMermaidDiagram() {
         StringBuilder builder = new (CLASS_DIAGRAM_START_STRING);
