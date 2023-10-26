@@ -202,7 +202,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 } }%%
 classDiagram
 IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
-Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
 class SomeRoot_SampleProject_Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
@@ -239,7 +239,7 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
 } }%%
 classDiagram
 IGenericOne_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
-Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
@@ -305,7 +305,7 @@ class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
 } }%%
 classDiagram
 IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
-Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
 class SomeRoot_SampleProject_Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
@@ -320,7 +320,7 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
 }
 
 IGenericOne_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
-Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
