@@ -201,9 +201,9 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IIntFoo <|-- Class1 : implements
-Class2 <-- Class1 : Class2Prop
-class SomeRoot.SampleProject.Class1 ["Class1"] {
+IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
+Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+class SomeRoot_SampleProject_Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
 }
@@ -219,8 +219,8 @@ class SomeRoot.SampleProject.Class1 ["Class1"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IGenericTwo_String_Int32_ <|-- Class2 : implements
-class SomeRoot.SampleProject.Class2 ["Class2"] {
+IGenericTwo_String_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
+class SomeRoot_SampleProject_Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
@@ -238,9 +238,9 @@ class SomeRoot.SampleProject.Class2 ["Class2"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IGenericOne_Class1_ <|-- ClassGeneric1 : implements
-Class1 <-- ClassGeneric1 : GenericTOne
-class SomeRoot.SampleProject.ClassGeneric1<T> ["ClassGeneric1"] {
+IGenericOne_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
+Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
@@ -258,7 +258,7 @@ class SomeRoot.SampleProject.ClassGeneric1<T> ["ClassGeneric1"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-class SomeRoot.SampleProject.IGenericOne<T1> ["IGenericOne"] {
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne"] {
     +T1 GenericTOne*
 }
 
@@ -273,8 +273,8 @@ class SomeRoot.SampleProject.IGenericOne<T1> ["IGenericOne"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IGenericOne_T1_ <|-- IGenericTwo : implements
-class SomeRoot.SampleProject.IGenericTwo<T1, T2> ["IGenericTwo"] {
+IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
+class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo"] {
     +T2 GenericTTwo*
 }
 
@@ -289,7 +289,7 @@ class SomeRoot.SampleProject.IGenericTwo<T1, T2> ["IGenericTwo"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-class SomeRoot.SampleProject.IIntFoo ["IIntFoo"] {
+class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     +int Foo*
 }
 
@@ -304,40 +304,40 @@ class SomeRoot.SampleProject.IIntFoo ["IIntFoo"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IIntFoo <|-- Class1 : implements
-Class2 <-- Class1 : Class2Prop
-class SomeRoot.SampleProject.Class1 ["Class1"] {
+IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
+Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+class SomeRoot_SampleProject_Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
 }
 
-IGenericTwo_String_Int32_ <|-- Class2 : implements
-class SomeRoot.SampleProject.Class2 ["Class2"] {
+IGenericTwo_String_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
+class SomeRoot_SampleProject_Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
 }
 
-IGenericOne_Class1_ <|-- ClassGeneric1 : implements
-Class1 <-- ClassGeneric1 : GenericTOne
-class SomeRoot.SampleProject.ClassGeneric1<T> ["ClassGeneric1"] {
+IGenericOne_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
+Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
 }
 
-class SomeRoot.SampleProject.IGenericOne<T1> ["IGenericOne"] {
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne"] {
     +T1 GenericTOne*
 }
 
-IGenericOne_T1_ <|-- IGenericTwo : implements
-class SomeRoot.SampleProject.IGenericTwo<T1, T2> ["IGenericTwo"] {
+IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
+class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo"] {
     +T2 GenericTTwo*
 }
 
-class SomeRoot.SampleProject.IIntFoo ["IIntFoo"] {
+class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     +int Foo*
 }
 
