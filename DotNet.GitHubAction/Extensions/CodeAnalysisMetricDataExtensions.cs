@@ -99,6 +99,23 @@ public record MemberMermaidInfo(ISymbol Symbol) {
     }
 }
 
+public class ImplementationInfo {
+    public string DiagramNodeId => _symbol.ToMermaidNodeId();
+    
+    public string Name => _symbol.Name;
+
+    public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
+    
+    private ISymbol _symbol;
+    
+    public ImplementationInfo (
+        ISymbol symbol
+    ) {
+        this._symbol = symbol;
+    }
+}
+    
+
 public class TypeMermaidInfo {
     public string DiagramNodeId => _symbol.ToMermaidNodeId();
 
@@ -122,7 +139,6 @@ public class TypeMermaidInfo {
         
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
             this.ImplementedTypes.Add(baseType.ToDisplayString());
-            combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
         }
         
         if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
@@ -135,7 +151,6 @@ public class TypeMermaidInfo {
                     interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                 }
                 this.ImplementedTypes.Add(interfaceName);
-                combinedDiagramInfo.AddInterface( implementedInterface );
             }
         }
 
@@ -236,7 +251,8 @@ public class TypeMermaidInfo {
 public class CombinedMermaidDiagramInfo {
     private Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
 
-    public TypeMermaidInfo Add( ISymbol symbol ) { 
+    public TypeMermaidInfo Add( CodeAnalysisMetricData classMetric ) { 
+        ISymbol symbol = classMetric.Symbol;
         string assemblyNodeId = symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
         string typeNodeId = symbol.ToMermaidNodeId();
         if (!CombinedInfo.ContainsKey(assemblyNodeId)) {
@@ -244,7 +260,7 @@ public class CombinedMermaidDiagramInfo {
         }
         if (!CombinedInfo[assemblyNodeId].ContainsKey(typeNodeId)) {
             CombinedInfo[assemblyNodeId][typeNodeId] =
-                new TypeMermaidInfo( symbol );
+                new TypeMermaidInfo( classMetric );
         }
         return CombinedInfo[assemblyNodeId][typeNodeId];
     }
@@ -375,7 +391,7 @@ static class CodeAnalysisMetricDataExtensions {
             : className;
         */
 
-        TypeMermaidInfo singleType = combinedDiagramInfo.Add( classMetric.Symbol );
+        TypeMermaidInfo singleType = combinedDiagramInfo.Add( classMetric );
 
         
 
