@@ -108,7 +108,7 @@ public class TypeMermaidInfo {
 
     public string Name => _symbol.Name;
 
-    public string Namespace => _symbol.ContaingNamespace?.ToMermaidNodeId() ?? String.Empty;
+    public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
 
     public HashSet<MemberMermaidInfo> Members { get; } = new ();
 
@@ -118,6 +118,39 @@ public class TypeMermaidInfo {
         if( symbol is not INamedTypeSymbol namedTypeSymbol ){
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
+        
+        if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
+            singleType.ImplementedTypes.Add(baseType.ToDisplayString());
+            combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
+        }
+        
+        if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
+            foreach (var implementedInterface in typeSymbol.Interfaces) {
+                string interfaceName = implementedInterface.Name;
+                System.Console.WriteLine( "INTERFACE:" );
+                // printNames(implementedInterface);
+                if (implementedInterface.IsGenericType) {
+                    var typeArgs = string.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
+                    interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
+                }
+                singleType.ImplementedTypes.Add(interfaceName);
+                combinedDiagramInfo.AddInterface(namespaceSymbolName, interfaceName, className);
+            }
+        }
+
+        var members = classMetric.Children.OrderBy(
+            m => m.Symbol.Kind switch {
+                     SymbolKind.Field    => 1,
+                     SymbolKind.Property => 2,
+                     SymbolKind.Method   => 3,
+                     _                   => 4
+                 }).ToArray();
+        foreach (var member in members) {
+            var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
+            this.Members.Add(memberMermaidInfo);
+            
+        }
+        
         this._symbol = namedTypeSymbol;
     }
 
@@ -202,7 +235,7 @@ public class TypeMermaidInfo {
 public class CombinedMermaidDiagramInfo {
     private Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
 
-    public void Add( ISymbol symbol ) { 
+    public TypeMermaidInfo Add( ISymbol symbol ) { 
         string assemblyNodeId = symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
         string typeNodeId = symbol.ToMermaidNodeId();
         if (!CombinedInfo.ContainsKey(assemblyNodeId)) {
@@ -212,12 +245,13 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyNodeId][typeNodeId] =
                 new TypeMermaidInfo( symbol );
         }
+        return CombinedInfo[assemblyNodeId][typeNodeId];
     }
 
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
-    public void AddInterface(string assemblyDisplayName, string interfaceName, string? implementationTypeName = null) {
-        this.Add(assemblyDisplayName, interfaceName);
-        CombinedInfo[assemblyDisplayName][interfaceName].Modifiers.Add("interface");
+    public void AddInterface( ISymbol symbol ) {
+        var typeInfo = this.Add( symbol );
+        CombinedInfo[typeInfo.Namespace][typeInfo.Name].Modifiers.Add("interface");
         if (implementationTypeName is { } t) {
             this.Add(assemblyDisplayName, t);
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
@@ -334,47 +368,15 @@ static class CodeAnalysisMetricDataExtensions {
         //     classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.GlobalNamespaceStyle ) 
         // );
         
-        
-        
-
+        /*
         className = className.Contains(".")
             ? className[(className.IndexOf(".", StringComparison.Ordinal) + 1)..]
             : className;
+        */
 
-        TypeMermaidInfo singleType = new TypeMermaidInfo( classMetric.Symbol );
+        TypeMermaidInfo singleType = combinedDiagramInfo.Add( classMetric.Symbol );
 
-        combinedDiagramInfo.Add( classMetric.Symbol );
-
-        if (classMetric.Symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
-            singleType.ImplementedTypes.Add(baseType.ToDisplayString());
-            combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
-        }
-        if (classMetric.Symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
-            foreach (var implementedInterface in typeSymbol.Interfaces) {
-                string interfaceName = implementedInterface.Name;
-                System.Console.WriteLine( "INTERFACE:" );
-                printNames(implementedInterface);
-                if (implementedInterface.IsGenericType) {
-                    var typeArgs = string.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
-                    interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
-                }
-                singleType.ImplementedTypes.Add(interfaceName);
-                combinedDiagramInfo.AddInterface(namespaceSymbolName, interfaceName, className);
-            }
-        }
-
-        var members = classMetric.Children.OrderBy(
-            m => m.Symbol.Kind switch {
-                     SymbolKind.Field    => 1,
-                     SymbolKind.Property => 2,
-                     SymbolKind.Method   => 3,
-                     _                   => 4
-                 }).ToArray();
-        foreach (var member in members) {
-            var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
-            singleType.Members.Add(memberMermaidInfo);
-            combinedDiagramInfo.AddMember(namespaceSymbolName, className, memberMermaidInfo);
-        }
+        
 
 
         var mermaidCode = CombinedMermaidDiagramInfo.CLASS_DIAGRAM_START_STRING + "\n" + singleType.ToMermaidClass();
