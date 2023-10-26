@@ -450,6 +450,7 @@ internal static class SymbolExtensions {
     internal static string ToMermaidNodeId(this ISymbol symbol) =>
         symbol switch {
             IAssemblySymbol  => symbol.Name,
+            INamespaceSymbol => symbol.Name,
             INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
             _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
         };
