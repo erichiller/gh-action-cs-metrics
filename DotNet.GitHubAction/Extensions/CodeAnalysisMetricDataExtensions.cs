@@ -114,7 +114,7 @@ public class TypeMermaidInfo {
 
     private INamedTypeSymbol _symbol;
     
-    public ( ISymbol symbol ){
+    public TypeMermaidInfo ( ISymbol symbol ){
         if( symbol is not INamedTypeSymbol namedTypeSymbol ){
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
