@@ -266,6 +266,7 @@ public class CombinedMermaidDiagramInfo {
     }
 
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
+    /*
     public void AddInterface( ISymbol symbol ) {
         var typeInfo = this.Add( symbol );
         CombinedInfo[typeInfo.Namespace][typeInfo.Name].Modifiers.Add("interface");
@@ -274,6 +275,7 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
         }
     }
+    */
 
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
     public void AddBase(string assemblyDisplayName, ISymbol baseTypeSymbol, string? implementationTypeName = null) {
