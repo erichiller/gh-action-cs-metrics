@@ -114,13 +114,14 @@ public class TypeMermaidInfo {
 
     private INamedTypeSymbol _symbol;
     
-    public TypeMermaidInfo ( ISymbol symbol ){
+    public TypeMermaidInfo ( CodeAnalysisMetricData classMetric ){
+        var symbol = classMetric.Symbol;
         if( symbol is not INamedTypeSymbol namedTypeSymbol ){
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
         
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
-            singleType.ImplementedTypes.Add(baseType.ToDisplayString());
+            this.ImplementedTypes.Add(baseType.ToDisplayString());
             combinedDiagramInfo.AddBase(namespaceSymbolName, baseType, className);
         }
         
@@ -130,11 +131,11 @@ public class TypeMermaidInfo {
                 System.Console.WriteLine( "INTERFACE:" );
                 // printNames(implementedInterface);
                 if (implementedInterface.IsGenericType) {
-                    var typeArgs = string.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
+                    var typeArgs = String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
                     interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                 }
-                singleType.ImplementedTypes.Add(interfaceName);
-                combinedDiagramInfo.AddInterface(namespaceSymbolName, interfaceName, className);
+                this.ImplementedTypes.Add(interfaceName);
+                combinedDiagramInfo.AddInterface( implementedInterface );
             }
         }
 
