@@ -194,17 +194,15 @@ public class TypeMermaidInfo {
 public class CombinedMermaidDiagramInfo {
     private Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
 
-    public void Add(string assemblyDisplayName, string typeName) {
-        // , IList<string> members 
-        if (!CombinedInfo.ContainsKey(assemblyDisplayName)) {
-            CombinedInfo[assemblyDisplayName] = new Dictionary<string, TypeMermaidInfo>();
+    public void Add( ISymbol symbol ) { 
+        string assemblyNodeId = symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
+        string typeNodeId = symbol.ToMermaidNodeId();
+        if (!CombinedInfo.ContainsKey(assemblyNodeId)) {
+            CombinedInfo[assemblyNodeId] = new Dictionary<string, TypeMermaidInfo>();
         }
-        if (!CombinedInfo[assemblyDisplayName].ContainsKey(typeName)) {
-            CombinedInfo[assemblyDisplayName][typeName] =
-                new TypeMermaidInfo {
-                    Namespace = assemblyDisplayName,
-                    Name      = typeName
-                };
+        if (!CombinedInfo[assemblyNodeId].ContainsKey(typeNodeId)) {
+            CombinedInfo[assemblyNodeId][typeNodeId] =
+                new TypeMermaidInfo( symbol );
         }
     }
 
@@ -303,7 +301,7 @@ static class CodeAnalysisMetricDataExtensions {
     /// <param name="combinedDiagramInfo">
     ///     Namespace -> TypeName -> members
     /// </param>
-    internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, string className, string namespaceSymbolName, CombinedMermaidDiagramInfo combinedDiagramInfo) {
+    internal static string ToMermaidClassDiagram(this CodeAnalysisMetricData classMetric, CombinedMermaidDiagramInfo combinedDiagramInfo) {
         // https://mermaid-js.github.io/mermaid/#/classDiagram
         // https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/schemas/config.schema.yaml#L168
         /* If title is desired, add like:
@@ -335,12 +333,9 @@ static class CodeAnalysisMetricDataExtensions {
             ? className[(className.IndexOf(".", StringComparison.Ordinal) + 1)..]
             : className;
 
-        TypeMermaidInfo singleType = new TypeMermaidInfo {
-            Name      = className,
-            Namespace = namespaceSymbolName
-        };
+        TypeMermaidInfo singleType = new TypeMermaidInfo( classMetric.Symbol );
 
-        combinedDiagramInfo.Add(namespaceSymbolName, className);
+        combinedDiagramInfo.Add( classMetric.Symbol );
 
         if (classMetric.Symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
             singleType.ImplementedTypes.Add(baseType.ToDisplayString());
