@@ -203,7 +203,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 classDiagram
 IIntFoo <|-- Class1 : implements
 Class2 <-- Class1 : Class2Prop
-class Class1 ["Class1"] {
+class SomeRoot.SampleProject.Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
 }
@@ -220,7 +220,7 @@ class Class1 ["Class1"] {
 } }%%
 classDiagram
 IGenericTwo_String_Int32_ <|-- Class2 : implements
-class Class2 ["Class2"] {
+class SomeRoot.SampleProject.Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
@@ -238,9 +238,9 @@ class Class2 ["Class2"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IGenericOne_Class1_ <|-- ClassGeneric1_T_ : implements
-Class1 <-- ClassGeneric1_T_ : GenericTOne
-class ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
+IGenericOne_Class1_ <|-- ClassGeneric1 : implements
+Class1 <-- ClassGeneric1 : GenericTOne
+class SomeRoot.SampleProject.ClassGeneric1<T> ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
@@ -258,7 +258,7 @@ class ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-class IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
+class SomeRoot.SampleProject.IGenericOne<T1> ["IGenericOne"] {
     +T1 GenericTOne*
 }
 
@@ -273,8 +273,8 @@ class IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-IGenericOne_T1_ <|-- IGenericTwo_T1__T2_ : implements
-class IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+IGenericOne_T1_ <|-- IGenericTwo : implements
+class SomeRoot.SampleProject.IGenericTwo<T1, T2> ["IGenericTwo"] {
     +T2 GenericTTwo*
 }
 
@@ -289,7 +289,7 @@ class IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-class IIntFoo ["IIntFoo"] {
+class SomeRoot.SampleProject.IIntFoo ["IIntFoo"] {
     +int Foo*
 }
 
@@ -306,51 +306,39 @@ class IIntFoo ["IIntFoo"] {
 classDiagram
 IIntFoo <|-- Class1 : implements
 Class2 <-- Class1 : Class2Prop
-class Class1 ["Class1"] {
+class SomeRoot.SampleProject.Class1 ["Class1"] {
     +int Foo
     +Class2 Class2Prop
 }
 
-class IIntFoo ["IIntFoo"] {
-    <<interface>>
-    +int Foo*
-}
-
 IGenericTwo_String_Int32_ <|-- Class2 : implements
-class Class2 ["Class2"] {
+class SomeRoot.SampleProject.Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
 }
 
-class IGenericTwo_String_Int32_ ["IGenericTwo&lt;String,Int32&gt;"] {
-    <<interface>>
-    
-}
-
-IGenericOne_Class1_ <|-- ClassGeneric1_T_ : implements
-Class1 <-- ClassGeneric1_T_ : GenericTOne
-class ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
+IGenericOne_Class1_ <|-- ClassGeneric1 : implements
+Class1 <-- ClassGeneric1 : GenericTOne
+class SomeRoot.SampleProject.ClassGeneric1<T> ["ClassGeneric1"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
 }
 
-class IGenericOne_Class1_ ["IGenericOne&lt;Class1&gt;"] {
-    <<interface>>
-    
-}
-
-class IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
-    <<interface>>
+class SomeRoot.SampleProject.IGenericOne<T1> ["IGenericOne"] {
     +T1 GenericTOne*
 }
 
-IGenericOne_T1_ <|-- IGenericTwo_T1__T2_ : implements
-class IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+IGenericOne_T1_ <|-- IGenericTwo : implements
+class SomeRoot.SampleProject.IGenericTwo<T1, T2> ["IGenericTwo"] {
     +T2 GenericTTwo*
+}
+
+class SomeRoot.SampleProject.IIntFoo ["IIntFoo"] {
+    +int Foo*
 }
 
 
