@@ -13,3 +13,15 @@
 - Mermaid Issue: [Nested generics on ClassDiagram #4937](https://github.com/mermaid-js/mermaid/issues/4937)
 
 https://github.com/mermaid-js/mermaid/issues/4937
+
+
+
+Sample run:
+
+```
+dotnet run . - --owner erichiller --name 'mkmrk.Channels' --branch 'refs/heads/master' --dir ../../mkmrk-channels/src/mkmrk.Channels/ --workspace ../../mkmrk-channels/src/mkmrk.Channels/
+
+
+
+
+```

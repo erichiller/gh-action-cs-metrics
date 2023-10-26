@@ -422,9 +422,9 @@ internal static class SymbolExtensions {
                                                                           genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
 
     internal static string ToMermaidNodeId(this ISymbol symbol) =>
-        symbol.Kind switch {
-            SymbolKind.Assembly  => symbol.Name,
-            SymbolKind.NamedType => symbol.ToDisplayString(_fqDisplayFormat),
+        symbol switch {
+            IAssemblySymbol  => symbol.Name,
+            INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
             _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
         };
 
