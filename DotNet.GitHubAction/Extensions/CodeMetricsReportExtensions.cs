@@ -94,7 +94,7 @@ static class CodeMetricsReportExtensions {
                         var linkToClassDiagram = $"<a href=\"#{id}\">🔗 to `{encodedName}` class diagram</a>";
                         document.AppendParagraph(linkToClassDiagram);
                         // MERMAID
-                        classDiagrams.Add((id, classSymbolName, classMetric.ToMermaidClassDiagram(classSymbolName, namespaceSymbolName, combinedDiagramInfo)));
+                        classDiagrams.Add((id, classSymbolName, classMetric.ToMermaidClassDiagram( combinedDiagramInfo )));
                     }
 
                     document.AppendParagraph(namespaceLink); // Links back to the parent namespace in the MD doc
