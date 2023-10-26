@@ -231,17 +231,6 @@ public class TypeMermaidInfo {
         return builder.ToString();
     }
 
-
-    static string toClassNameId(string className) =>
-        className
-            .Replace("<", "_")
-            .Replace(">", "_")
-            .Replace(",", "_")
-            .Replace(" ", "_")
-            .Replace("~", "_")
-            .Replace(".", "_")
-            .Replace("?", String.Empty);
-
     internal static string? replaceAngleBracketsWithHtmlCodes(string className) =>
         className
             .Replace("<", "&lt;")
@@ -448,12 +437,23 @@ internal static class SymbolExtensions {
                                                                           genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
 
     internal static string ToMermaidNodeId(this ISymbol symbol) =>
+        ToClassNameId(
         symbol switch {
             IAssemblySymbol  => symbol.Name,
             INamespaceSymbol => symbol.Name,
             INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
             _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
-        };
+        } );
+        
+    public static string ToClassNameId(string className) =>
+        className
+            .Replace("<", "_")
+            .Replace(">", "_")
+            .Replace(",", "_")
+            .Replace(" ", "_")
+            .Replace("~", "_")
+            .Replace(".", "_")
+            .Replace("?", String.Empty);
 
     private static string getNamedTypeDisplayName(ISymbol symbol) {
         StringBuilder minimalTypeName = new (symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat));
