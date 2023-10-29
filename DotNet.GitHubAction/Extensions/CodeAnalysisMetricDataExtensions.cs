@@ -518,7 +518,7 @@ internal static class SymbolExtensions {
             _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
         } );
     
-    public static void GetMermaidClassDeclaration( this INamedTypeSymbol symbol, ref StringBuilder builder ){
+    public static void GetMermaidClassDeclaration( this ITypeSymbol symbol, ref StringBuilder builder ){
         //
         builder.AppendLine(
             $$"""
@@ -528,7 +528,7 @@ internal static class SymbolExtensions {
               """ );
     }
     
-    public static string? GetClassModifierString( this INamedTypeSymbol symbol ){
+    public static string? GetClassModifierString( this ITypeSymbol symbol ){
         return symbol switch {
             { TypeKind: TypeKind.Interface } => "<<interface>>",
             { IsAbstract: true } => "<<abstract>>",
