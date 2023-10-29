@@ -273,6 +273,9 @@ public class TypeMermaidInfo {
             if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
                 System.Console.WriteLine( $"====> Drawing relationship." );
                 builder.AppendLine($"{member.ReturnType.ToMermaidNodeId().TrimEnd('?')} <-- {this.DiagramNodeId} : {member.Symbol.Name}");
+                if ( withParentDefinitions ) {
+                    member.ReturnType.GetMermaidClassDeclaration( ref builder );
+                }
             }
         }
 
@@ -514,6 +517,24 @@ internal static class SymbolExtensions {
             INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
             _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
         } );
+    
+    public static void GetMermaidClassDeclaration( this INamedTypeSymbol symbol, ref StringBuilder builder ){
+        //
+        builder.AppendLine(
+            $$"""
+              class {{ symbol.ToMermaidNodeId() }} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes( symbol.ToDisplayName() )}}"] {
+                  {{ symbol.GetClassModifierString() }}
+              }
+              """ );
+    }
+    
+    public static string? GetClassModifierString( this INamedTypeSymbol symbol ){
+        return symbol switch {
+            { TypeKind: TypeKind.Interface } => "<<interface>>",
+            { IsAbstract: true } => "<<abstract>>",
+            _ => null
+        };
+    }
         
     public static string ToClassNameId(string className) =>
         className
