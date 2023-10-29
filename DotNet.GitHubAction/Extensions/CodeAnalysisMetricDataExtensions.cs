@@ -140,7 +140,8 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     public void ToMermaidDiagram( StringBuilder builder, bool withTypeArgs ){
         string displayName = 
             withTypeArgs
-                ? this.
+                ? this.TypeArgsString
+                : this.TypeParamsString;
         builder.AppendLine( 
             $$"""
             class {{this.DiagramNodeId}} ["{{displayName}}"] {
@@ -225,7 +226,8 @@ public class TypeMermaidInfo {
         foreach (var parent in this.ImplementedTypes) {
             builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits" ) );
             if ( withParentDefinitions ) {
-                parent.ToMermaidDiagram(builder);
+                // withTypeArgs because it is assumed that if withParentDefinitions then withTypeArgs is also desired
+                parent.ToMermaidDiagram(builder, withTypeArgs: true);
             }
         }
         foreach (var member in this.Members) {
