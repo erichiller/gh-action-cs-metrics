@@ -106,7 +106,7 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
 
     public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
     
-    
+    public string NameWithTypeParameters => this.Name + TypeParamsString;
     public string NameWithTypeArguments => this.Name + TypeArgsString;
     
     public bool IsInterface       => this._symbol.TypeKind == TypeKind.Interface;
@@ -118,14 +118,40 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     public string? TypeArgsString => _symbol.IsGenericType 
                                          ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
                                          : null;
+    public string? TypeParamsString => _symbol.IsGenericType 
+                                         ? "<" + String.Join(",", _symbol.TypeParameters.Select(tp => tp.ToDisplayName() ) ) + ">"
+                                         : null;
     
     private INamedTypeSymbol _symbol;
+    
+    public string? ModifierString =>
+        this._symbol switch {
+            { IsAbstract: true } => "<<abstract>>",
+            { TypeKind: TypeKind.Interface } => "<<interface>>",
+            _ => null
+        };
     
     public ImplementationInfo (
         INamedTypeSymbol symbol
     ) {
         this._symbol = symbol;
     }
+    
+    public void ToMermaidDiagram( StringBuilder builder, bool withTypeArgs ){
+        string displayName = 
+            withTypeArgs
+                ? this.
+        builder.AppendLine( 
+            $$"""
+            class {{this.DiagramNodeId}} ["{{displayName}}"] {
+                {this.ModifierString}
+            }
+            """ );
+    }
+    
+    /*
+     *
+     */
     
     bool IEquatable.Equals( object? other ) =>
         this.Equals(other as ImplementationInfo);
@@ -199,7 +225,7 @@ public class TypeMermaidInfo {
         foreach (var parent in this.ImplementedTypes) {
             builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits" ) );
             if ( withParentDefinitions ) {
-                builder.AppendLine( 
+                parent.ToMermaidDiagram(builder);
             }
         }
         foreach (var member in this.Members) {
