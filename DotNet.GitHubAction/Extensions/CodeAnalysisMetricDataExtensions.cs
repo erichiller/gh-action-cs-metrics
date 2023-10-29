@@ -109,6 +109,8 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     
     public string NameWithTypeArguments => this.Name + TypeArgsString;
     
+    public bool IsInterface       => this._symbol.TypeKind == TypeKind.Interface;
+    
     public string[]? TypeArgs     => _symbol.IsGenericType 
                                          ? _symbol.TypeArguments
                                          : null;
@@ -157,11 +159,12 @@ public class TypeMermaidInfo {
         }
         
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
-            this.ImplementedTypes.Add(baseType.ToDisplayString());
+            this.ImplementedTypes.Add(baseType);
         }
         
         if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
             foreach (var implementedInterface in typeSymbol.Interfaces) {
+            /*
                 string interfaceName = implementedInterface.Name;
                 System.Console.WriteLine( "INTERFACE:" + implementedInterface.GetType().Name );
                 // printNames(implementedInterface);
@@ -169,7 +172,8 @@ public class TypeMermaidInfo {
                     var typeArgs = String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
                     interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                 }
-                this.ImplementedTypes.Add(interfaceName);
+                */
+                this.ImplementedTypes.Add(implementedInterface);
             }
         }
 
@@ -183,17 +187,20 @@ public class TypeMermaidInfo {
         foreach (var member in members) {
             var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
             this.Members.Add(memberMermaidInfo);
-            
+            // 
         }
         
         this._symbol = namedTypeSymbol;
     }
 
-    public string ToMermaidClass() {
+    public string ToMermaidClass( bool withParentDefinitions = false ) {
         StringBuilder builder = new ();
 
-        foreach (var interfaceName in this.ImplementedTypes) {
-            builder.AppendLine($"{SymbolExtensions.ToClassNameId(interfaceName)} <|-- {this.DiagramNodeId} : implements");
+        foreach (var parent in this.ImplementedTypes) {
+            builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits" ) );
+            if ( withParentDefinitions ) {
+                builder.AppendLine( 
+            }
         }
         foreach (var member in this.Members) {
             System.Console.WriteLine( "\n" +
