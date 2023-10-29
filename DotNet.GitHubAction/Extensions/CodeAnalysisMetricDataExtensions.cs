@@ -154,7 +154,7 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
      *
      */
     
-    public bool override Equals( object? other ) =>
+    public override bool Equals( object? other ) =>
         this.Equals(other as ImplementationInfo);
     
     public bool Equals( ImplementationInfo? other ) =>
