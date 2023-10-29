@@ -122,8 +122,8 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     
     public string? ModifierString =>
         this._symbol switch {
-            { IsAbstract: true } => "<<abstract>>",
             { TypeKind: TypeKind.Interface } => "<<interface>>",
+            { IsAbstract: true } => "<<abstract>>",
             _ => null
         };
     
@@ -141,7 +141,7 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
         builder.AppendLine( 
             $$"""
             class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(displayName)}}"] {
-                {this.ModifierString}
+                {{this.ModifierString}}
             }
             """ );
     }
@@ -165,8 +165,8 @@ public class TypeMermaidInfo {
 
     public string[] Modifiers { get {
         return _symbol switch {
-            { IsAbstract: true } => new string[]{ "abstract" },
             { TypeKind: TypeKind.Interface } => new string[]{ "interface" },
+            { IsAbstract: true } => new string[]{ "abstract" },
             _ => Array.Empty<string>()
         };
     } }
