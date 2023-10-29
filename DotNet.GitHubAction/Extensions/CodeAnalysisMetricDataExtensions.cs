@@ -99,7 +99,7 @@ public record MemberMermaidInfo(ISymbol Symbol) {
     }
 }
 
-public class ImplementationInfo {
+public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     public string DiagramNodeId => _symbol.ToMermaidNodeId();
     
     public string Name => _symbol.Name;
@@ -124,6 +124,14 @@ public class ImplementationInfo {
     ) {
         this._symbol = symbol;
     }
+    
+    bool IEquatable.Equals( object? other ) =>
+        this.Equals(other as ImplementationInfo);
+    
+    public bool Equals( ImplementationInfo? other ) =>
+        other?.DiagramNodeId == this.DiagramNodeId;
+        
+    public override int GetHashCode() => this.DiagramNodeId.GetHashCode();
 }
     
 
@@ -132,7 +140,7 @@ public class TypeMermaidInfo {
 
     public HashSet<string> Modifiers { get; } = new ();
 
-    public HashSet<string> ImplementedTypes { get; } = new ();
+    public HashSet<ImplementationInfo> ImplementedTypes { get; } = new ();
 
     public string Name => _symbol.Name;
 
