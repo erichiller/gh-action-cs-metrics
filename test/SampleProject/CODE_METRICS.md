@@ -202,6 +202,9 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 } }%%
 classDiagram
 SomeRoot_SampleProject_IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
+class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
+    {this.ModifierString}
+}
 SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
 class SomeRoot_SampleProject_Class1 ["Class1"] {
     +int Foo
@@ -220,6 +223,9 @@ class SomeRoot_SampleProject_Class1 ["Class1"] {
 } }%%
 classDiagram
 SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
+class SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ ["IGenericTwo&lt;String,Int32&gt;"] {
+    {this.ModifierString}
+}
 class SomeRoot_SampleProject_Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
@@ -239,8 +245,11 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
 } }%%
 classDiagram
 SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
+class SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ ["IGenericOne&lt;Class1&gt;"] {
+    {this.ModifierString}
+}
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
-class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
+class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
@@ -258,7 +267,8 @@ class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne"] {
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
+    <<abstract>>
     +T1 GenericTOne*
 }
 
@@ -274,7 +284,11 @@ class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne"] {
 } }%%
 classDiagram
 SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
-class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo"] {
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
+    {this.ModifierString}
+}
+class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+    <<abstract>>
     +T2 GenericTTwo*
 }
 
@@ -290,6 +304,7 @@ class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo"] {
 } }%%
 classDiagram
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
+    <<abstract>>
     +int Foo*
 }
 
@@ -321,23 +336,26 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
 
 SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
-class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1"] {
+class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
 }
 
-class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne"] {
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
+    <<abstract>>
     +T1 GenericTOne*
 }
 
 SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
-class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo"] {
+class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+    <<abstract>>
     +T2 GenericTTwo*
 }
 
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
+    <<abstract>>
     +int Foo*
 }
 
