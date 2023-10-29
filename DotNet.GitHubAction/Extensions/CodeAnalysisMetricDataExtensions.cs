@@ -154,7 +154,7 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
      *
      */
     
-    bool IEquatable.Equals( object? other ) =>
+    public bool override Equals( object? other ) =>
         this.Equals(other as ImplementationInfo);
     
     public bool Equals( ImplementationInfo? other ) =>
@@ -231,14 +231,6 @@ public class TypeMermaidInfo {
             }
         }
         foreach (var member in this.Members) {
-            System.Console.WriteLine( "\n" +
-                                      $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
-                                      $"member ContainingNamespace ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) = {member.ReturnType.ContainingNamespace?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}\n\t" +
-                                      $"member ContainingNamespace ToDisplayName = {member.ReturnType.ContainingNamespace?.ToDisplayName()}\n\t" +
-                                      $"member ContainingNamespace Name = {member.ReturnType.ContainingNamespace?.Name}\n\t" +
-                                      $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}\n\t" +
-                                      $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
-                                      $"member ReturnType GetType() = {member.ReturnType.GetType()}" );
             
             if( member.ReturnType.Kind == SymbolKind.ArrayType ){
                 // TODO: draw relationship to element type
@@ -522,3 +514,16 @@ internal static class SymbolExtensions {
         return minimalTypeName.ToString();
     }
 }
+
+/*
+
+System.Console.WriteLine( "\n" +
+                                      $"member ContainingNamespace ToDisplayString = {member.ReturnType.ContainingNamespace?.ToDisplayString()}\n\t" +
+                                      $"member ContainingNamespace ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) = {member.ReturnType.ContainingNamespace?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}\n\t" +
+                                      $"member ContainingNamespace ToDisplayName = {member.ReturnType.ContainingNamespace?.ToDisplayName()}\n\t" +
+                                      $"member ContainingNamespace Name = {member.ReturnType.ContainingNamespace?.Name}\n\t" +
+                                      $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}\n\t" +
+                                      $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
+                                      $"member ReturnType GetType() = {member.ReturnType.GetType()}" );
+            
+            */
