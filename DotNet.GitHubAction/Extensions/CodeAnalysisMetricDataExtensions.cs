@@ -111,10 +111,12 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     
     public bool IsInterface       => this._symbol.TypeKind == TypeKind.Interface;
     
+    /*
     public string[]? TypeArgs     => _symbol.IsGenericType 
                                          ? _symbol.TypeArguments
                                          : null;
                                          
+    */
     public string? TypeArgsString => _symbol.IsGenericType 
                                          ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
                                          : null;
