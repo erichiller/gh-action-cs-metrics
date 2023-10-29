@@ -186,7 +186,7 @@ public class TypeMermaidInfo {
         }
         
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
-            this.ImplementedTypes.Add(baseType);
+            this.ImplementedTypes.Add( new( baseType ) );
         }
         
         if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
@@ -200,7 +200,7 @@ public class TypeMermaidInfo {
                     interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                 }
                 */
-                this.ImplementedTypes.Add(implementedInterface);
+                this.ImplementedTypes.Add( new(implementedInterface));
             }
         }
 
