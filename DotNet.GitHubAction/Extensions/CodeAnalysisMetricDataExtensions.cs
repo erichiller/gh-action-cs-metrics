@@ -106,7 +106,7 @@ public class ImplementationInfo {
 
     public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
     
-    /*
+    
     public string NameWithTypeArguments => this.Name + TypeArgsString;
     
     public string[]? TypeArgs     => _symbol.IsGenericType 
@@ -116,11 +116,11 @@ public class ImplementationInfo {
     public string? TypeArgsString => _symbol.IsGenericType 
                                          ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
                                          : null;
-    */
-    private ITypeSymbol _symbol;
+    
+    private INamedTypeSymbol _symbol;
     
     public ImplementationInfo (
-        ITypeSymbol symbol
+        INamedTypeSymbol symbol
     ) {
         this._symbol = symbol;
     }
