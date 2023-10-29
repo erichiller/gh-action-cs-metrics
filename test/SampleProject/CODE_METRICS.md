@@ -206,9 +206,26 @@ class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
 }
 SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+class SomeRoot_SampleProject_Class2 ["Class2"] {
+    
+}
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : <Class2Prop>k__BackingField
+class SomeRoot_SampleProject_Class2 ["Class2"] {
+    
+}
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : get_Class2Prop
+class SomeRoot_SampleProject_Class2 ["Class2"] {
+    
+}
 class SomeRoot_SampleProject_Class1 ["Class1"] {
+    -int &lt;Foo&gt;k__BackingField
+    -Class2 &lt;Class2Prop&gt;k__BackingField
     +int Foo
     +Class2 Class2Prop
+    +Foo.get int
+    +Foo.set void
+    +Class2Prop.get Class2
+    +.ctor() Class1
 }
 
 ```
@@ -227,10 +244,20 @@ class SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ ["IGeneric
     <<interface>>
 }
 class SomeRoot_SampleProject_Class2 ["Class2"] {
+    -string &lt;StringProp&gt;k__BackingField
+    -string[] &lt;StringArrayProp&gt;k__BackingField
+    -string &lt;GenericTOne&gt;k__BackingField
+    -int &lt;GenericTTwo&gt;k__BackingField
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
+    +StringProp.get string
+    +StringProp.init void
+    +StringArrayProp.get string[]
+    +GenericTOne.get string
+    +GenericTTwo.get int
+    +.ctor() Class2
 }
 
 ```
@@ -249,11 +276,27 @@ class SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ ["IGener
     <<interface>>
 }
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+class SomeRoot_SampleProject_Class1 ["Class1"] {
+    
+}
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : <GenericTOne>k__BackingField
+class SomeRoot_SampleProject_Class1 ["Class1"] {
+    
+}
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : get_GenericTOne
+class SomeRoot_SampleProject_Class1 ["Class1"] {
+    
+}
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
+    -T &lt;MyT&gt;k__BackingField
+    -Class1 &lt;GenericTOne&gt;k__BackingField
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
+    +MyT.get T
+    +GenericTOne.get Class1
+    +.ctor() ClassGeneric1&lt;T&gt;
 }
 
 ```
@@ -270,6 +313,7 @@ classDiagram
 class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     <<interface>>
     +T1 GenericTOne*
+    +GenericTOne.get* T1
 }
 
 ```
@@ -290,6 +334,7 @@ class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
 class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
+    +GenericTTwo.get* T2
 }
 
 ```
@@ -306,6 +351,8 @@ classDiagram
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
     +int Foo*
+    +Foo.get* int
+    +Foo.set* void
 }
 
 ```
@@ -321,42 +368,71 @@ class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
 classDiagram
 SomeRoot_SampleProject_IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
 SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : <Class2Prop>k__BackingField
+SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : get_Class2Prop
 class SomeRoot_SampleProject_Class1 ["Class1"] {
+    -int &lt;Foo&gt;k__BackingField
+    -Class2 &lt;Class2Prop&gt;k__BackingField
     +int Foo
     +Class2 Class2Prop
+    +Foo.get int
+    +Foo.set void
+    +Class2Prop.get Class2
+    +.ctor() Class1
 }
 
 SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
 class SomeRoot_SampleProject_Class2 ["Class2"] {
+    -string &lt;StringProp&gt;k__BackingField
+    -string[] &lt;StringArrayProp&gt;k__BackingField
+    -string &lt;GenericTOne&gt;k__BackingField
+    -int &lt;GenericTTwo&gt;k__BackingField
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
+    +StringProp.get string
+    +StringProp.init void
+    +StringArrayProp.get string[]
+    +GenericTOne.get string
+    +GenericTTwo.get int
+    +.ctor() Class2
 }
 
 SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : <GenericTOne>k__BackingField
+SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : get_GenericTOne
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
+    -T &lt;MyT&gt;k__BackingField
+    -Class1 &lt;GenericTOne&gt;k__BackingField
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
+    +MyT.get T
+    +GenericTOne.get Class1
+    +.ctor() ClassGeneric1&lt;T&gt;
 }
 
 class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     <<interface>>
     +T1 GenericTOne*
+    +GenericTOne.get* T1
 }
 
 SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
 class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
+    +GenericTTwo.get* T2
 }
 
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
     +int Foo*
+    +Foo.get* int
+    +Foo.set* void
 }
 
 
