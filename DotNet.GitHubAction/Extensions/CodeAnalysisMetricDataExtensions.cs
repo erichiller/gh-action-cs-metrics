@@ -213,11 +213,35 @@ public class TypeMermaidInfo {
                      SymbolKind.Method   => 3,
                      _                   => 4
                  }).ToArray();
+        
+        System.Console.WriteLine(
+            "classMetric.Children =" +
+            String.Join( ",", members.Select( m => m.Name ) )
+        );
         foreach (var member in members) {
             var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
             this.Members.Add(memberMermaidInfo);
             // 
         }
+        
+        // URGENT: IS THIS THE SAME?
+        members = namedTypeSymbol.GetMembers().OrderBy(
+            m => m.Symbol.Kind switch {
+                     SymbolKind.Field    => 1,
+                     SymbolKind.Property => 2,
+                     SymbolKind.Method   => 3,
+                     _                   => 4
+                 }).ToArray();
+        System.Console.WriteLine(
+            "GetMembers() =" +
+            String.Join( ",", members.Select( m => m.Name ) )
+        );
+        foreach (var member in members) {
+            var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
+            this.Members.Add(memberMermaidInfo);
+            // 
+        }
+        
         
         this._symbol = namedTypeSymbol;
     }
