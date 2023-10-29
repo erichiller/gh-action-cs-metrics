@@ -206,8 +206,8 @@ public class TypeMermaidInfo {
             }
         }
 
-        var members = classMetric.Children.OrderBy(
-            m => m.Symbol.Kind switch {
+        var members = classMetric.Children.Select( c => c.Symbol).OrderBy(
+            m => m.Kind switch {
                      SymbolKind.Field    => 1,
                      SymbolKind.Property => 2,
                      SymbolKind.Method   => 3,
@@ -219,14 +219,14 @@ public class TypeMermaidInfo {
             String.Join( ",", members.Select( m => m.Name ) )
         );
         foreach (var member in members) {
-            var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
+            var memberMermaidInfo = new MemberMermaidInfo(member);
             this.Members.Add(memberMermaidInfo);
             // 
         }
         
         // URGENT: IS THIS THE SAME?
         members = namedTypeSymbol.GetMembers().OrderBy(
-            m => m.Symbol.Kind switch {
+            m => m.Kind switch {
                      SymbolKind.Field    => 1,
                      SymbolKind.Property => 2,
                      SymbolKind.Method   => 3,
