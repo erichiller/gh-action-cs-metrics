@@ -108,15 +108,18 @@ public class ImplementationInfo {
     
     public string NameWithTypeArguments => this.Name + TypeArgsString;
     
-    public string[]? TypeArgs => _symbol.IsGenericType ? implementedInterface.TypeArguments : null;
+    public string[]? TypeArgs     => _symbol.IsGenericType 
+                                         ? _symbol.TypeArguments
+                                         : null;
+                                         
     public string? TypeArgsString => _symbol.IsGenericType 
-                                         ? "<" + String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name) ) + ">"
+                                         ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
                                          : null;
     
-    private ISymbol _symbol;
+    private ITypeSymbol _symbol;
     
     public ImplementationInfo (
-        ISymbol symbol
+        ITypeSymbol symbol
     ) {
         this._symbol = symbol;
     }
