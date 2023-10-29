@@ -34,7 +34,7 @@ public record MemberMermaidInfo(ISymbol Symbol) {
     }
 
     static string? toMemberSafeName(ISymbol member, string className) =>
-        Extensions.TypeMermaidInfo.replaceAngleBracketsWithHtmlCodes(ToMemberName(member, className));
+        MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(ToMemberName(member, className));
 
     static string ToAccessModifier(ISymbol member) {
         // TODO: figure out how to get access modifiers.
@@ -139,14 +139,14 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
         this._symbol = symbol;
     }
     
-    public void ToMermaidDiagram( StringBuilder builder, bool withTypeArgs ){
+    public void ToMermaidDiagram( ref StringBuilder builder, bool withTypeArgs ){
         string displayName = 
             withTypeArgs
                 ? this.TypeArgsString
                 : this.TypeParamsString;
         builder.AppendLine( 
             $$"""
-            class {{this.DiagramNodeId}} ["{{displayName}}"] {
+            class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(displayName)}}"] {
                 {this.ModifierString}
             }
             """ );
@@ -169,7 +169,13 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
 public class TypeMermaidInfo {
     public string DiagramNodeId => _symbol.ToMermaidNodeId();
 
-    public HashSet<string> Modifiers { get; } = new ();
+    public string[] Modifiers { get {
+        return _symbol switch {
+            { IsAbstract: true } => new string[]{ "abstract" },
+            { TypeKind: TypeKind.Interface } => new string[]{ "interface" },
+            _ => Array.Empty<string>()
+        };
+    } }
 
     public HashSet<ImplementationInfo> ImplementedTypes { get; } = new ();
 
@@ -229,7 +235,7 @@ public class TypeMermaidInfo {
             builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits" ) );
             if ( withParentDefinitions ) {
                 // withTypeArgs because it is assumed that if withParentDefinitions then withTypeArgs is also desired
-                parent.ToMermaidDiagram(builder, withTypeArgs: true);
+                parent.ToMermaidDiagram( ref builder, withTypeArgs: true);
             }
         }
         foreach (var member in this.Members) {
@@ -254,8 +260,8 @@ public class TypeMermaidInfo {
 
         builder.AppendLine(
             $$"""
-              class {{this.DiagramNodeId}} ["{{replaceAngleBracketsWithHtmlCodes(this.Name)}}"] {
-              """);
+              class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(this._symbol.ToDisplayName() )}}"] {
+              """ );
         foreach (var modifier in this.Modifiers) {
             builder.AppendLine($"    <<{modifier}>>");
         }
@@ -278,11 +284,7 @@ public class TypeMermaidInfo {
 
         return builder.ToString();
     }
-
-    internal static string? replaceAngleBracketsWithHtmlCodes(string className) =>
-        className
-            .Replace("<", "&lt;")
-            .Replace(">", "&gt;");
+    
 }
 
 public class CombinedMermaidDiagramInfo {
@@ -437,7 +439,9 @@ static class CodeAnalysisMetricDataExtensions {
         
 
 
-        var mermaidCode = CombinedMermaidDiagramInfo.CLASS_DIAGRAM_START_STRING + "\n" + singleType.ToMermaidClass();
+        var mermaidCode = CombinedMermaidDiagramInfo.CLASS_DIAGRAM_START_STRING
+                              + "\n"
+                              + singleType.ToMermaidClass( true );
 
         return mermaidCode;
     }
@@ -515,6 +519,15 @@ internal static class SymbolExtensions {
 
         return minimalTypeName.ToString();
     }
+}
+
+internal static class MermaidUtils {
+
+    public static string? ReplaceAngleBracketsWithHtmlCodes(string className) =>
+        className
+            .Replace("<", "&lt;")
+            .Replace(">", "&gt;");
+
 }
 
 /*
