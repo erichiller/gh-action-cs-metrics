@@ -237,7 +237,7 @@ public class TypeMermaidInfo {
             String.Join( ",", members.Select( m => m.Name ) )
         );
         foreach (var member in members) {
-            var memberMermaidInfo = new MemberMermaidInfo(member.Symbol);
+            var memberMermaidInfo = new MemberMermaidInfo(member);
             this.Members.Add(memberMermaidInfo);
             // 
         }
