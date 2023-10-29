@@ -106,6 +106,7 @@ public class ImplementationInfo {
 
     public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
     
+    /*
     public string NameWithTypeArguments => this.Name + TypeArgsString;
     
     public string[]? TypeArgs     => _symbol.IsGenericType 
@@ -115,7 +116,7 @@ public class ImplementationInfo {
     public string? TypeArgsString => _symbol.IsGenericType 
                                          ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
                                          : null;
-    
+    */
     private ITypeSymbol _symbol;
     
     public ImplementationInfo (
@@ -154,7 +155,7 @@ public class TypeMermaidInfo {
         if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
             foreach (var implementedInterface in typeSymbol.Interfaces) {
                 string interfaceName = implementedInterface.Name;
-                System.Console.WriteLine( "INTERFACE:" );
+                System.Console.WriteLine( "INTERFACE:" + implementedInterface.GetType().Name );
                 // printNames(implementedInterface);
                 if (implementedInterface.IsGenericType) {
                     var typeArgs = String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
