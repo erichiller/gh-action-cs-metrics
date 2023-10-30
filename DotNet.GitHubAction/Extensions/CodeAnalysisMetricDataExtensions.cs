@@ -139,6 +139,7 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
             ImplementationInfo
             ==================
                 Name             = {symbol.Name}
+                DiagramNodeId    = {DiagramNodeId}
                 TypeArgsString   = {TypeArgsString}
                 TypeParamsString = {TypeParamsString}
             """ );
@@ -201,6 +202,7 @@ public class TypeMermaidInfo {
         if (symbol is not INamedTypeSymbol namedTypeSymbol) {
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
+        this._symbol = namedTypeSymbol;
 
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
             this.ImplementedTypes.Add(new (baseType));
@@ -261,9 +263,15 @@ public class TypeMermaidInfo {
             this.Members.Add(memberMermaidInfo);
             // 
         }
-
-
-        this._symbol = namedTypeSymbol;
+        //
+        System.Console.WriteLine(
+            $"""
+            TypeMermaidInfo
+            ==================
+                Name             = {_symbol.Name}
+                DiagramNodeId    = {DiagramNodeId}
+            """ );
+        //
     }
 
     public string ToMermaidClass(bool withParentDefinitions = false) {
