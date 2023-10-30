@@ -134,6 +134,14 @@ public class ImplementationInfo : IEquatable<ImplementationInfo?> {
 
     public ImplementationInfo(INamedTypeSymbol symbol) {
         this._symbol = symbol;
+        System.Console.WriteLine(
+            $"""
+            ImplementationInfo
+            ==================
+                Name             = {symbol.Name}
+                TypeArgsString   = {TypeArgsString}
+                TypeParamsString = {TypeParamsString}
+            """ );
     }
 
     public void ToMermaidDiagram(ref StringBuilder builder, bool withTypeArgs) {
@@ -188,8 +196,8 @@ public class TypeMermaidInfo {
 
     private INamedTypeSymbol _symbol;
 
-    public TypeMermaidInfo(CodeAnalysisMetricData classMetric) {
-        var symbol = classMetric.Symbol;
+    public TypeMermaidInfo(ISymbol symbol) {
+        // 
         if (symbol is not INamedTypeSymbol namedTypeSymbol) {
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
@@ -209,10 +217,11 @@ public class TypeMermaidInfo {
                         interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
                     }
                     */
-                this.ImplementedTypes.Add(new (implementedInterface));
+                this.ImplementedTypes.Add(new ImplementationInfo(implementedInterface));
             }
         }
-
+        
+        /*
         var members = classMetric.Children.Select(c => c.Symbol).OrderBy(
             m => m.Kind switch {
                      SymbolKind.Field    => 1,
@@ -230,9 +239,10 @@ public class TypeMermaidInfo {
             // this.Members.Add(memberMermaidInfo);
             // 
         }
+        */
 
         // URGENT: IS THIS THE SAME?
-        members = namedTypeSymbol.GetMembers()
+        var members = namedTypeSymbol.GetMembers()
                                  .Where(static symbol => symbol.Kind is SymbolKind.Field or SymbolKind.Property or SymbolKind.Method)
                                  .Where(static symbol => symbol.CanBeReferencedByName)
                                  .OrderBy(
@@ -328,7 +338,7 @@ public class CombinedMermaidDiagramInfo {
         }
         if (!CombinedInfo[assemblyNodeId].ContainsKey(typeNodeId)) {
             CombinedInfo[assemblyNodeId][typeNodeId] =
-                new TypeMermaidInfo(classMetric);
+                new TypeMermaidInfo(symbol);
         }
         return CombinedInfo[assemblyNodeId][typeNodeId];
     }
