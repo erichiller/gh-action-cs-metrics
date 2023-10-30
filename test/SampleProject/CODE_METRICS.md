@@ -225,8 +225,8 @@ class SomeRoot_SampleProject_Class1 ["Class1"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
-class SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ ["IGenericTwo&lt;String,Int32&gt;"] {
+SomeRoot_SampleProject_IGenericTwo_T1_T2_ <|-- SomeRoot_SampleProject_Class2 : implements
+class SomeRoot_SampleProject_IGenericTwo_T1_T2_ ["IGenericTwo&lt;String,Int32&gt;"] {
     <<interface>>
 }
 class SomeRoot_SampleProject_Class2 ["Class2"] {
@@ -247,8 +247,8 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
-class SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ ["IGenericOne&lt;Class1&gt;"] {
+SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
+class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;Class1&gt;"] {
     <<interface>>
 }
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
@@ -289,11 +289,11 @@ class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
-SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
+SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1_T2_ : implements
 class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     <<interface>>
 }
-class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+class SomeRoot_SampleProject_IGenericTwo_T1_T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
 }
@@ -332,7 +332,7 @@ class SomeRoot_SampleProject_Class1 ["Class1"] {
     +Class2 Class2Prop
 }
 
-SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
+SomeRoot_SampleProject_IGenericTwo_T1_T2_ <|-- SomeRoot_SampleProject_Class2 : implements
 class SomeRoot_SampleProject_Class2 ["Class2"] {
     +string StringProp
     +string[] StringArrayProp
@@ -340,7 +340,7 @@ class SomeRoot_SampleProject_Class2 ["Class2"] {
     +int GenericTTwo
 }
 
-SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
+SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
     +T MyT
@@ -354,8 +354,8 @@ class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     +T1 GenericTOne*
 }
 
-SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
-class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
+SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1_T2_ : implements
+class SomeRoot_SampleProject_IGenericTwo_T1_T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
 }
