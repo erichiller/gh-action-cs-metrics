@@ -47,8 +47,8 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class1-class-diagram">🔗 to `Class1` class diagram</a>
 
@@ -71,10 +71,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class2-class-diagram">🔗 to `Class2` class diagram</a>
 
@@ -97,10 +97,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
-| Method | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#ClassGeneric1&lt;T&gt;-class-diagram">🔗 to `ClassGeneric1&lt;T&gt;` class diagram</a>
 
@@ -123,7 +123,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericOne&lt;T1&gt;-class-diagram">🔗 to `IGenericOne&lt;T1&gt;` class diagram</a>
 
@@ -146,7 +146,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericTwo&lt;T1, T2&gt;-class-diagram">🔗 to `IGenericTwo&lt;T1, T2&gt;` class diagram</a>
 
@@ -169,7 +169,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IIntFoo-class-diagram">🔗 to `IIntFoo` class diagram</a>
 
