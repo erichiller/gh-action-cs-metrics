@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace DotNet.GitHubAction.Extensions;
 
@@ -20,7 +21,7 @@ public record MemberMermaidInfo(ISymbol Symbol) {
                                          IMethodSymbol method     => method.ReturnType,
                                          IPropertySymbol property => property.Type,
                                          IFieldSymbol field       => field.Type,
-                                         _                        => throw new Exception()
+                                         _                        => throw new InvalidEnumArgumentException($"Unexpected symbol type {Symbol.GetType().Name} encountered on {Symbol.Name}")
                                      };
 
     public string? ToMermaidMemberLine() {
@@ -83,7 +84,7 @@ public record MemberMermaidInfo(ISymbol Symbol) {
             Regex returnTypeRegex = new (@"^(?<returnType>\w+(?(<)[^\>]+>|[^ ]+))");
             if (returnTypeRegex.Match(methodName) is { Success: true } match) {
                 // 2 is hardcoded for the space and "." characters
-                index           = methodName.IndexOf($" {className}.", StringComparison.Ordinal) + 2 + className.Length;
+                index = methodName.IndexOf($" {className}.", StringComparison.Ordinal) + 2 + className.Length;
                 if (index > methodName.Length) {
                     throw new Exception();
                 }
@@ -101,75 +102,81 @@ public record MemberMermaidInfo(ISymbol Symbol) {
 
 public class ImplementationInfo : IEquatable<ImplementationInfo?> {
     public string DiagramNodeId => _symbol.ToMermaidNodeId();
-    
+
     public string Name => _symbol.Name;
 
     public string Namespace => _symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
-    
+
     public string NameWithTypeParameters => this.Name + TypeParamsString;
-    public string NameWithTypeArguments => this.Name + TypeArgsString;
-    
-    public bool IsInterface       => this._symbol.TypeKind == TypeKind.Interface;
-    
-    public string? TypeArgsString => _symbol.IsGenericType 
-                                         ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name) ) + ">"
-                                         : null;
-    public string? TypeParamsString => _symbol.IsGenericType 
-                                         ? "<" + String.Join(",", _symbol.TypeParameters.Select(tp => tp.ToDisplayName() ) ) + ">"
-                                         : null;
-    
+    public string NameWithTypeArguments  => this.Name + TypeArgsString;
+
+    public bool IsInterface => this._symbol switch {
+                                   { TypeKind: TypeKind.Interface }                                                                      => true,
+                                   { TypeKind: TypeKind.Error, Name: { Length: > 1 } name } when name[0] == 'I' && Char.IsUpper(name[1]) => true, // if it's an error symbol and it follows I[A-Z] then assume it is an interface from an external assembly.
+                                   _                                                                                                     => false
+                               };
+
+    public string? TypeArgsString => _symbol.IsGenericType
+        ? "<" + String.Join(",", _symbol.TypeArguments.Select(ta => ta.Name)) + ">"
+        : null;
+    public string? TypeParamsString => _symbol.IsGenericType
+        ? "<" + String.Join(",", _symbol.TypeParameters.Select(tp => tp.ToDisplayName())) + ">"
+        : null;
+
     private INamedTypeSymbol _symbol;
-    
+
     public string? ModifierString =>
         this._symbol switch {
-            { TypeKind: TypeKind.Interface } => "<<interface>>",
-            { IsAbstract: true } => "<<abstract>>",
-            _ => null
+            { TypeKind  : TypeKind.Interface } => "<<interface>>",
+            { IsAbstract: true }               => "<<abstract>>",
+            _                                  => null
         };
-    
-    public ImplementationInfo (
-        INamedTypeSymbol symbol
-    ) {
+
+    public ImplementationInfo(INamedTypeSymbol symbol) {
         this._symbol = symbol;
     }
-    
-    public void ToMermaidDiagram( ref StringBuilder builder, bool withTypeArgs ){
-        string displayName = 
+
+    public void ToMermaidDiagram(ref StringBuilder builder, bool withTypeArgs) {
+        string displayName =
             withTypeArgs
                 ? this.NameWithTypeArguments
                 : this.NameWithTypeParameters;
-        builder.AppendLine( 
+        builder.AppendLine(
             $$"""
-            class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(displayName)}}"] {
-                {{this.ModifierString}}
-            }
-            """ );
+              class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(displayName)}}"] {
+                  {{this.ModifierString}}
+              }
+              """
+        );
     }
-    
+
     /*
      *
      */
-    
-    public override bool Equals( object? other ) =>
+
+    public override bool Equals(object? other) =>
         this.Equals(other as ImplementationInfo);
-    
-    public bool Equals( ImplementationInfo? other ) =>
+
+    public bool Equals(ImplementationInfo? other) =>
         other?.DiagramNodeId == this.DiagramNodeId;
-        
+
     public override int GetHashCode() => this.DiagramNodeId.GetHashCode();
 }
-    
 
 public class TypeMermaidInfo {
     public string DiagramNodeId => _symbol.ToMermaidNodeId();
 
-    public string[] Modifiers { get {
-        return _symbol switch {
-            { TypeKind: TypeKind.Interface } => new string[]{ "interface" },
-            { IsAbstract: true } => new string[]{ "abstract" },
-            _ => Array.Empty<string>()
-        };
-    } }
+    public string[] Modifiers
+    {
+        get
+        {
+            return _symbol switch {
+                       { TypeKind  : TypeKind.Interface } => new string[] { "interface" },
+                       { IsAbstract: true }               => new string[] { "abstract" },
+                       _                                  => Array.Empty<string>()
+                   };
+        }
+    }
 
     public HashSet<ImplementationInfo> ImplementedTypes { get; } = new ();
 
@@ -180,109 +187,111 @@ public class TypeMermaidInfo {
     public HashSet<MemberMermaidInfo> Members { get; } = new ();
 
     private INamedTypeSymbol _symbol;
-    
-    public TypeMermaidInfo ( CodeAnalysisMetricData classMetric ){
+
+    public TypeMermaidInfo(CodeAnalysisMetricData classMetric) {
         var symbol = classMetric.Symbol;
-        if( symbol is not INamedTypeSymbol namedTypeSymbol ){
+        if (symbol is not INamedTypeSymbol namedTypeSymbol) {
             throw new ArgumentException($"unexpected symbol type: {symbol.GetType().Name}");
         }
-        
+
         if (symbol is ITypeSymbol { BaseType: { Kind: SymbolKind.NamedType } baseType }) {
-            this.ImplementedTypes.Add( new( baseType ) );
+            this.ImplementedTypes.Add(new (baseType));
         }
-        
-        if ( symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
+
+        if (symbol is ITypeSymbol { Interfaces.Length: > 0 } typeSymbol) {
             foreach (var implementedInterface in typeSymbol.Interfaces) {
-            /*
-                string interfaceName = implementedInterface.Name;
-                System.Console.WriteLine( "INTERFACE:" + implementedInterface.GetType().Name );
-                // printNames(implementedInterface);
-                if (implementedInterface.IsGenericType) {
-                    var typeArgs = String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
-                    interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
-                }
-                */
-                this.ImplementedTypes.Add( new(implementedInterface));
+                /*
+                    string interfaceName = implementedInterface.Name;
+                    System.Console.WriteLine( "INTERFACE:" + implementedInterface.GetType().Name );
+                    // printNames(implementedInterface);
+                    if (implementedInterface.IsGenericType) {
+                        var typeArgs = String.Join(",", implementedInterface.TypeArguments.Select(ta => ta.Name));
+                        interfaceName = $"{implementedInterface.Name}<{typeArgs}>";
+                    }
+                    */
+                this.ImplementedTypes.Add(new (implementedInterface));
             }
         }
 
-        var members = classMetric.Children.Select( c => c.Symbol).OrderBy(
+        var members = classMetric.Children.Select(c => c.Symbol).OrderBy(
             m => m.Kind switch {
                      SymbolKind.Field    => 1,
                      SymbolKind.Property => 2,
                      SymbolKind.Method   => 3,
                      _                   => 4
                  }).ToArray();
-        
+
         System.Console.WriteLine(
             "classMetric.Children =" +
-            String.Join( ",", members.Select( m => m.Name ) )
+            String.Join(",", members.Select(m => m.Name))
         );
         foreach (var member in members) {
             var memberMermaidInfo = new MemberMermaidInfo(member);
-            this.Members.Add(memberMermaidInfo);
+            // this.Members.Add(memberMermaidInfo);
             // 
         }
-        
+
         // URGENT: IS THIS THE SAME?
-        members = namedTypeSymbol.GetMembers().OrderBy(
-            m => m.Kind switch {
-                     SymbolKind.Field    => 1,
-                     SymbolKind.Property => 2,
-                     SymbolKind.Method   => 3,
-                     _                   => 4
-                 }).ToArray();
+        members = namedTypeSymbol.GetMembers()
+                                 .Where(static symbol => symbol.Kind is SymbolKind.Field or SymbolKind.Property or SymbolKind.Method)
+                                 .Where(static symbol => symbol.CanBeReferencedByName)
+                                 .OrderBy(
+                                     static m => m.Kind switch {
+                                                     SymbolKind.Field    => 1,
+                                                     SymbolKind.Property => 2,
+                                                     SymbolKind.Method   => 3,
+                                                     _                   => 4
+                                                 }).ToArray();
         System.Console.WriteLine(
             "GetMembers() =" +
-            String.Join( ",", members.Select( m => m.Name ) )
+            String.Join(",", members.Select(m => m.Name))
         );
         foreach (var member in members) {
             var memberMermaidInfo = new MemberMermaidInfo(member);
             this.Members.Add(memberMermaidInfo);
             // 
         }
-        
-        
+
+
         this._symbol = namedTypeSymbol;
     }
 
-    public string ToMermaidClass( bool withParentDefinitions = false ) {
+    public string ToMermaidClass(bool withParentDefinitions = false) {
         StringBuilder builder = new ();
 
         foreach (var parent in this.ImplementedTypes) {
-            builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits" ) );
-            if ( withParentDefinitions ) {
+            builder.AppendLine($"{parent.DiagramNodeId} <|-- {this.DiagramNodeId} : " + (parent.IsInterface ? "implements" : "inherits"));
+            if (withParentDefinitions) {
                 // withTypeArgs because it is assumed that if withParentDefinitions then withTypeArgs is also desired
-                parent.ToMermaidDiagram( ref builder, withTypeArgs: true);
+                parent.ToMermaidDiagram(ref builder, withTypeArgs: true);
             }
         }
         foreach (var member in this.Members) {
-            
-            if( member.ReturnType.Kind == SymbolKind.ArrayType ){
+            if (member.ReturnType.Kind == SymbolKind.ArrayType) {
                 // TODO: draw relationship to element type
                 continue;
             }
-            if( member.ReturnType.Kind == SymbolKind.TypeParameter ){
+            if (member.ReturnType.Kind == SymbolKind.TypeParameter) {
                 continue;
             }
-            
+
             // FUTURE TODO: Add links based on collections element types
             // FUTURE TODO: Add links based on generic type parameters type constraints?
             // string? ns = member.ReturnType.ContainingNamespace?.ToDisplayString();
             string? ns = member.ReturnType.ContainingNamespace?.Name;
-            if ( !String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true ) {
-                System.Console.WriteLine( $"====> Drawing relationship." );
+            if (!String.IsNullOrWhiteSpace(ns) && ns?.StartsWith("System") != true) {
+                System.Console.WriteLine($"====> Drawing relationship.");
                 builder.AppendLine($"{member.ReturnType.ToMermaidNodeId().TrimEnd('?')} <-- {this.DiagramNodeId} : {member.Symbol.Name}");
-                if ( withParentDefinitions ) {
-                    member.ReturnType.GetMermaidClassDeclaration( ref builder );
+                if (withParentDefinitions) {
+                    member.ReturnType.GetMermaidClassDeclaration(ref builder);
                 }
             }
         }
 
         builder.AppendLine(
             $$"""
-              class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(this._symbol.ToDisplayName() )}}"] {
-              """ );
+              class {{this.DiagramNodeId}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(this._symbol.ToDisplayName())}}"] {
+              """);
         foreach (var modifier in this.Modifiers) {
             builder.AppendLine($"    <<{modifier}>>");
         }
@@ -305,22 +314,21 @@ public class TypeMermaidInfo {
 
         return builder.ToString();
     }
-    
 }
 
 public class CombinedMermaidDiagramInfo {
     private Dictionary<string, Dictionary<string, TypeMermaidInfo>> CombinedInfo { get; } = new ();
 
-    public TypeMermaidInfo Add( CodeAnalysisMetricData classMetric ) { 
-        ISymbol symbol = classMetric.Symbol;
-        string assemblyNodeId = symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
-        string typeNodeId = symbol.ToMermaidNodeId();
+    public TypeMermaidInfo Add(CodeAnalysisMetricData classMetric) {
+        ISymbol symbol         = classMetric.Symbol;
+        string  assemblyNodeId = symbol.ContainingNamespace?.ToMermaidNodeId() ?? String.Empty;
+        string  typeNodeId     = symbol.ToMermaidNodeId();
         if (!CombinedInfo.ContainsKey(assemblyNodeId)) {
             CombinedInfo[assemblyNodeId] = new Dictionary<string, TypeMermaidInfo>();
         }
         if (!CombinedInfo[assemblyNodeId].ContainsKey(typeNodeId)) {
             CombinedInfo[assemblyNodeId][typeNodeId] =
-                new TypeMermaidInfo( classMetric );
+                new TypeMermaidInfo(classMetric);
         }
         return CombinedInfo[assemblyNodeId][typeNodeId];
     }
@@ -335,7 +343,7 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(interfaceName);
         }
     }
-    
+
 
     // TODO: NOT SURE IF THE INTERFACE NAMESPACE IS KNOWN
     public void AddBase(string assemblyDisplayName, ISymbol baseTypeSymbol, string? implementationTypeName = null) {
@@ -349,7 +357,7 @@ public class CombinedMermaidDiagramInfo {
             CombinedInfo[assemblyDisplayName][t].ImplementedTypes.Add(baseTypeName);
         }
     }
-    
+
 
     public void AddMember(string assemblyDisplayName, string typeName, MemberMermaidInfo memberInfo) {
         this.Add(assemblyDisplayName, typeName);
@@ -437,7 +445,7 @@ static class CodeAnalysisMetricDataExtensions {
         } }%%
         classDiagram
         */
-        
+
         /*
         Name = Class1
         ToDisplayString = SomeRoot.SampleProject.Class1
@@ -448,44 +456,41 @@ static class CodeAnalysisMetricDataExtensions {
         // System.Console.WriteLine( nameof(SymbolDisplayFormat.GlobalNamespaceStyle) + " = " +
         //     classMetric.Symbol.ToDisplayString( SymbolDisplayFormat.GlobalNamespaceStyle ) 
         // );
-        
+
         /*
         className = className.Contains(".")
             ? className[(className.IndexOf(".", StringComparison.Ordinal) + 1)..]
             : className;
         */
 
-        TypeMermaidInfo singleType = combinedDiagramInfo.Add( classMetric );
-
-        
+        TypeMermaidInfo singleType = combinedDiagramInfo.Add(classMetric);
 
 
         var mermaidCode = CombinedMermaidDiagramInfo.CLASS_DIAGRAM_START_STRING
-                              + "\n"
-                              + singleType.ToMermaidClass( true );
+                          + "\n"
+                          + singleType.ToMermaidClass(true);
 
         return mermaidCode;
     }
-    
-    private static void printNames( ISymbol symbol ){
-        
-        System.Console.WriteLine( "Name" + " = " +
-            symbol.Name
+
+    private static void printNames(ISymbol symbol) {
+        System.Console.WriteLine("Name" + " = " +
+                                 symbol.Name
         );
-        System.Console.WriteLine( "ToMermaidNodeId" + " = " +
-                                  symbol.ToMermaidNodeId( ) 
+        System.Console.WriteLine("ToMermaidNodeId" + " = " +
+                                 symbol.ToMermaidNodeId()
         );
-        System.Console.WriteLine( "ToDisplayString" + " = " +
-                                  symbol.ToDisplayString( ) 
+        System.Console.WriteLine("ToDisplayString" + " = " +
+                                 symbol.ToDisplayString()
         );
-        System.Console.WriteLine( nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
-            symbol.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ) 
+        System.Console.WriteLine(nameof(SymbolDisplayFormat.MinimallyQualifiedFormat) + " = " +
+                                 symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)
         );
-        System.Console.WriteLine( nameof(SymbolDisplayFormat.FullyQualifiedFormat) + " = " +
-            symbol.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat ) 
+        System.Console.WriteLine(nameof(SymbolDisplayFormat.FullyQualifiedFormat) + " = " +
+                                 symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
         );
-        System.Console.WriteLine( "ToDisplayName" + " = " +
-            symbol.ToDisplayName()
+        System.Console.WriteLine("ToDisplayName" + " = " +
+                                 symbol.ToDisplayName()
         );
     }
 }
@@ -507,35 +512,35 @@ internal static class SymbolExtensions {
         };
 
     private static SymbolDisplayFormat _fqDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-                                                                          genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
+                                                                                  genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
 
     internal static string ToMermaidNodeId(this ISymbol symbol) =>
         ToClassNameId(
-        symbol switch {
-            IAssemblySymbol  => symbol.Name,
-            INamespaceSymbol => symbol.Name,
-            INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
-            _                    => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
-        } );
-    
-    public static void GetMermaidClassDeclaration( this ITypeSymbol symbol, ref StringBuilder builder ){
+            symbol switch {
+                IAssemblySymbol  => symbol.Name,
+                INamespaceSymbol => symbol.Name,
+                INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
+                _                => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
+            });
+
+    public static void GetMermaidClassDeclaration(this ITypeSymbol symbol, ref StringBuilder builder) {
         //
         builder.AppendLine(
             $$"""
-              class {{ symbol.ToMermaidNodeId() }} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes( symbol.ToDisplayName() )}}"] {
-                  {{ symbol.GetClassModifierString() }}
+              class {{symbol.ToMermaidNodeId()}} ["{{MermaidUtils.ReplaceAngleBracketsWithHtmlCodes(symbol.ToDisplayName())}}"] {
+                  {{symbol.GetClassModifierString()}}
               }
-              """ );
+              """);
     }
-    
-    public static string? GetClassModifierString( this ITypeSymbol symbol ){
+
+    public static string? GetClassModifierString(this ITypeSymbol symbol) {
         return symbol switch {
-            { TypeKind: TypeKind.Interface } => "<<interface>>",
-            { IsAbstract: true } => "<<abstract>>",
-            _ => null
-        };
+                   { TypeKind  : TypeKind.Interface } => "<<interface>>",
+                   { IsAbstract: true }               => "<<abstract>>",
+                   _                                  => null
+               };
     }
-        
+
     public static string ToClassNameId(string className) =>
         className
             .Replace("<", "_")
@@ -561,12 +566,10 @@ internal static class SymbolExtensions {
 }
 
 internal static class MermaidUtils {
-
     public static string? ReplaceAngleBracketsWithHtmlCodes(string className) =>
         className
             .Replace("<", "&lt;")
             .Replace(">", "&gt;");
-
 }
 
 /*
@@ -579,5 +582,5 @@ System.Console.WriteLine( "\n" +
                                       $"member ReturnType ToDisplayString = {member.ReturnType.ToDisplayString()}\n\t" +
                                       $"member ReturnType Kind = {member.ReturnType.Kind}\n\t" +
                                       $"member ReturnType GetType() = {member.ReturnType.GetType()}" );
-            
+
             */

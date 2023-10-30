@@ -47,8 +47,8 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class1-class-diagram">🔗 to `Class1` class diagram</a>
 
@@ -71,10 +71,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class2-class-diagram">🔗 to `Class2` class diagram</a>
 
@@ -97,10 +97,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
-| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Method | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
+| Method | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#ClassGeneric1&lt;T&gt;-class-diagram">🔗 to `ClassGeneric1&lt;T&gt;` class diagram</a>
 
@@ -123,7 +123,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericOne&lt;T1&gt;-class-diagram">🔗 to `IGenericOne&lt;T1&gt;` class diagram</a>
 
@@ -146,7 +146,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericTwo&lt;T1, T2&gt;-class-diagram">🔗 to `IGenericTwo&lt;T1, T2&gt;` class diagram</a>
 
@@ -169,7 +169,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/'gh-action-cs-metrics'/blob/master'/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IIntFoo-class-diagram">🔗 to `IIntFoo` class diagram</a>
 
@@ -209,23 +209,9 @@ SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
 class SomeRoot_SampleProject_Class2 ["Class2"] {
     
 }
-SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : <Class2Prop>k__BackingField
-class SomeRoot_SampleProject_Class2 ["Class2"] {
-    
-}
-SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : get_Class2Prop
-class SomeRoot_SampleProject_Class2 ["Class2"] {
-    
-}
 class SomeRoot_SampleProject_Class1 ["Class1"] {
-    -int &lt;Foo&gt;k__BackingField
-    -Class2 &lt;Class2Prop&gt;k__BackingField
     +int Foo
     +Class2 Class2Prop
-    +Foo.get int
-    +Foo.set void
-    +Class2Prop.get Class2
-    +.ctor() Class1
 }
 
 ```
@@ -244,20 +230,10 @@ class SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ ["IGeneric
     <<interface>>
 }
 class SomeRoot_SampleProject_Class2 ["Class2"] {
-    -string &lt;StringProp&gt;k__BackingField
-    -string[] &lt;StringArrayProp&gt;k__BackingField
-    -string &lt;GenericTOne&gt;k__BackingField
-    -int &lt;GenericTTwo&gt;k__BackingField
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
-    +StringProp.get string
-    +StringProp.init void
-    +StringArrayProp.get string[]
-    +GenericTOne.get string
-    +GenericTTwo.get int
-    +.ctor() Class2
 }
 
 ```
@@ -279,24 +255,11 @@ SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : Gene
 class SomeRoot_SampleProject_Class1 ["Class1"] {
     
 }
-SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : <GenericTOne>k__BackingField
-class SomeRoot_SampleProject_Class1 ["Class1"] {
-    
-}
-SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : get_GenericTOne
-class SomeRoot_SampleProject_Class1 ["Class1"] {
-    
-}
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
-    -T &lt;MyT&gt;k__BackingField
-    -Class1 &lt;GenericTOne&gt;k__BackingField
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
-    +MyT.get T
-    +GenericTOne.get Class1
-    +.ctor() ClassGeneric1&lt;T&gt;
 }
 
 ```
@@ -313,7 +276,6 @@ classDiagram
 class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     <<interface>>
     +T1 GenericTOne*
-    +GenericTOne.get* T1
 }
 
 ```
@@ -334,7 +296,6 @@ class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
 class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
-    +GenericTTwo.get* T2
 }
 
 ```
@@ -351,8 +312,6 @@ classDiagram
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
     +int Foo*
-    +Foo.get* int
-    +Foo.set* void
 }
 
 ```
@@ -368,71 +327,42 @@ class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
 classDiagram
 SomeRoot_SampleProject_IIntFoo <|-- SomeRoot_SampleProject_Class1 : implements
 SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : Class2Prop
-SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : <Class2Prop>k__BackingField
-SomeRoot_SampleProject_Class2 <-- SomeRoot_SampleProject_Class1 : get_Class2Prop
 class SomeRoot_SampleProject_Class1 ["Class1"] {
-    -int &lt;Foo&gt;k__BackingField
-    -Class2 &lt;Class2Prop&gt;k__BackingField
     +int Foo
     +Class2 Class2Prop
-    +Foo.get int
-    +Foo.set void
-    +Class2Prop.get Class2
-    +.ctor() Class1
 }
 
 SomeRoot_SampleProject_IGenericTwo_System_String__System_Int32_ <|-- SomeRoot_SampleProject_Class2 : implements
 class SomeRoot_SampleProject_Class2 ["Class2"] {
-    -string &lt;StringProp&gt;k__BackingField
-    -string[] &lt;StringArrayProp&gt;k__BackingField
-    -string &lt;GenericTOne&gt;k__BackingField
-    -int &lt;GenericTTwo&gt;k__BackingField
     +string StringProp
     +string[] StringArrayProp
     +string GenericTOne
     +int GenericTTwo
-    +StringProp.get string
-    +StringProp.init void
-    +StringArrayProp.get string[]
-    +GenericTOne.get string
-    +GenericTTwo.get int
-    +.ctor() Class2
 }
 
 SomeRoot_SampleProject_IGenericOne_SomeRoot_SampleProject_Class1_ <|-- SomeRoot_SampleProject_ClassGeneric1_T_ : implements
 SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : GenericTOne
-SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : <GenericTOne>k__BackingField
-SomeRoot_SampleProject_Class1 <-- SomeRoot_SampleProject_ClassGeneric1_T_ : get_GenericTOne
 class SomeRoot_SampleProject_ClassGeneric1_T_ ["ClassGeneric1&lt;T&gt;"] {
-    -T &lt;MyT&gt;k__BackingField
-    -Class1 &lt;GenericTOne&gt;k__BackingField
     +T MyT
     +Class1 GenericTOne
     +DoThingsAsync() ValueTask
     +DisposableReturningMethod() IDisposable
-    +MyT.get T
-    +GenericTOne.get Class1
-    +.ctor() ClassGeneric1&lt;T&gt;
 }
 
 class SomeRoot_SampleProject_IGenericOne_T1_ ["IGenericOne&lt;T1&gt;"] {
     <<interface>>
     +T1 GenericTOne*
-    +GenericTOne.get* T1
 }
 
 SomeRoot_SampleProject_IGenericOne_T1_ <|-- SomeRoot_SampleProject_IGenericTwo_T1__T2_ : implements
 class SomeRoot_SampleProject_IGenericTwo_T1__T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
     <<interface>>
     +T2 GenericTTwo*
-    +GenericTTwo.get* T2
 }
 
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
     +int Foo*
-    +Foo.get* int
-    +Foo.set* void
 }
 
 
