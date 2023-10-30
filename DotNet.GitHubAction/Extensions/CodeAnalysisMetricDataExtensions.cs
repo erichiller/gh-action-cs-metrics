@@ -530,16 +530,23 @@ internal static class SymbolExtensions {
         };
 
     private static SymbolDisplayFormat _fqDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-                                                                                  genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters);
+                                                                                  //genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
+                                                                                  genericsOptions: SymbolDisplayGenericsOptions.None
+                                                                                  );
 
     internal static string ToMermaidNodeId(this ISymbol symbol) =>
         ToClassNameId(
             symbol switch {
-                IAssemblySymbol  => symbol.Name,
-                INamespaceSymbol => symbol.Name,
-                INamedTypeSymbol => symbol.ToDisplayString(_fqDisplayFormat),
-                _                => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
+                IAssemblySymbol    => symbol.Name,
+                INamespaceSymbol   => symbol.Name,
+                INamedTypeSymbol s => s.ToDisplayString(_fqDisplayFormat) + s.GetTypeParametersString(),
+                _                  => throw new ArgumentException($"Invalid type of Symbol: {symbol.GetType().Name}")
             });
+    
+    public static string? GetTypeParametersString( this INamedTypeSymbol symbol ) => 
+        symbol.IsGenericType
+            ? "<" + String.Join(",", symbol.TypeParameters.Select(tp => tp.ToDisplayName())) + ">"
+            : null;
 
     public static void GetMermaidClassDeclaration(this ITypeSymbol symbol, ref StringBuilder builder) {
         //
