@@ -12,7 +12,7 @@ This file represents various [code metrics](https://aka.ms/dotnet/code-metrics),
 The *SampleProject.csproj* project file contains:
 
 - 1 namespaces.
-- 9 named types.
+- 10 named types.
 - 54 total lines of source code.
 - Approximately 2 lines of executable code.
 - The highest cyclomatic complexity is 2 ✅.
@@ -25,9 +25,9 @@ The *SampleProject.csproj* project file contains:
 </summary>
 <br>
 
-The `SomeRoot.SampleProject` namespace contains 9 named types.
+The `SomeRoot.SampleProject` namespace contains 10 named types.
 
-- 9 named types.
+- 10 named types.
 - 54 total lines of source code.
 - Approximately 2 lines of executable code.
 - The highest cyclomatic complexity is 2 ✅.
@@ -203,6 +203,31 @@ The `SomeRoot.SampleProject` namespace contains 9 named types.
 
 <details style="margin-left: 1em">
 <summary>
+  <strong id="readonlyrecordstruct1">
+    ReadOnlyRecordStruct1 ✅
+  </strong>
+</summary>
+<br>
+
+- The `ReadOnlyRecordStruct1` contains 3 members.
+- 3 total lines of source code.
+- Approximately 0 lines of executable code.
+- The highest cyclomatic complexity is 1 ✅.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L45' title='ReadOnlyRecordStruct1.ReadOnlyRecordStruct1(string StringPropertyA, int IntPropertyB)'>45</a> | 100 | 1 ✅ | 0 | 0 | 3 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L45' title='int ReadOnlyRecordStruct1.IntPropertyB'>45</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L45' title='string ReadOnlyRecordStruct1.StringPropertyA'>45</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+
+<a href="#ReadOnlyRecordStruct1-class-diagram">🔗 to `ReadOnlyRecordStruct1` class diagram</a>
+
+<a href="#someroot-sampleproject">🔝 back to SomeRoot.SampleProject</a>
+
+</details>
+
+<details style="margin-left: 1em">
+<summary>
   <strong id="recordclass1">
     RecordClass1 ✅
   </strong>
@@ -235,13 +260,13 @@ The `SomeRoot.SampleProject` namespace contains 9 named types.
 <br>
 
 - The `RegularStruct1` contains 1 members.
-- 9 total lines of source code.
+- 5 total lines of source code.
 - Approximately 0 lines of executable code.
 - The highest cyclomatic complexity is 2 ✅.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L50' title='string RegularStruct1.StringPropertyA'>50</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L50' title='MyEnum1 RegularStruct1.StringPropertyA'>50</a> | 100 | 2 ✅ | 0 | 1 | 1 / 0 |
 
 <a href="#RegularStruct1-class-diagram">🔗 to `RegularStruct1` class diagram</a>
 
@@ -405,6 +430,33 @@ class SomeRoot_SampleProject_MyEnum1 ["MyEnum1"] {
 
 ```
 
+<div id="ReadOnlyRecordStruct1-class-diagram"></div>
+
+##### `ReadOnlyRecordStruct1` class diagram
+
+```mermaid
+%%{init: {
+    'fontFamily': 'monospace'
+} }%%
+classDiagram
+System_IEquatable__ <|-- SomeRoot_SampleProject_ReadOnlyRecordStruct1 : implements
+class System_IEquatable__ ["IEquatable&lt;ReadOnlyRecordStruct1&gt;"] {
+    <<interface>>
+}
+class SomeRoot_SampleProject_ReadOnlyRecordStruct1 ["ReadOnlyRecordStruct1"] {
+    <<readonly record struct>>
+    +string StringPropertyA
+    +int IntPropertyB
+    +ToString() string
+    +PrintMembers(StringBuilder builder) bool
+    +GetHashCode() int
+    +Equals(object obj) bool
+    +Equals(ReadOnlyRecordStruct1 other) bool
+    +Deconstruct(out string StringPropertyA, out int IntPropertyB) void
+}
+
+```
+
 <div id="RecordClass1-class-diagram"></div>
 
 ##### `RecordClass1` class diagram
@@ -442,8 +494,13 @@ class SomeRoot_SampleProject_RecordClass1 ["RecordClass1"] {
     'fontFamily': 'monospace'
 } }%%
 classDiagram
+SomeRoot_SampleProject_MyEnum1 <-- SomeRoot_SampleProject_RegularStruct1 : StringPropertyA
+class SomeRoot_SampleProject_MyEnum1 ["MyEnum1"] {
+    <<Enum>>
+}
 class SomeRoot_SampleProject_RegularStruct1 ["RegularStruct1"] {
-    +string StringPropertyA
+    <<struct>>
+    +MyEnum1 StringPropertyA
 }
 
 ```
@@ -503,6 +560,19 @@ class SomeRoot_SampleProject_MyEnum1 ["MyEnum1"] {
     -EnumMemberB$
 }
 
+System_IEquatable__ <|-- SomeRoot_SampleProject_ReadOnlyRecordStruct1 : implements
+class SomeRoot_SampleProject_ReadOnlyRecordStruct1 ["ReadOnlyRecordStruct1"] {
+    <<readonly record struct>>
+    +string StringPropertyA
+    +int IntPropertyB
+    +ToString() string
+    +PrintMembers(StringBuilder builder) bool
+    +GetHashCode() int
+    +Equals(object obj) bool
+    +Equals(ReadOnlyRecordStruct1 other) bool
+    +Deconstruct(out string StringPropertyA, out int IntPropertyB) void
+}
+
 System_IEquatable__ <|-- SomeRoot_SampleProject_RecordClass1 : implements
 class SomeRoot_SampleProject_RecordClass1 ["RecordClass1"] {
     <<record>>
@@ -517,8 +587,10 @@ class SomeRoot_SampleProject_RecordClass1 ["RecordClass1"] {
     +Deconstruct(out string StringPropertyA, out int IntPropertyB) void
 }
 
+SomeRoot_SampleProject_MyEnum1 <-- SomeRoot_SampleProject_RegularStruct1 : StringPropertyA
 class SomeRoot_SampleProject_RegularStruct1 ["RegularStruct1"] {
-    +string StringPropertyA
+    <<struct>>
+    +MyEnum1 StringPropertyA
 }
 
 

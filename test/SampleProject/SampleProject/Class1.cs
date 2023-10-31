@@ -42,12 +42,12 @@ public class ClassGeneric1<T> : IGenericOne<Class1> {
 
 // URGENT: any sort of record struct breaks things!
 
-// public readonly record struct ReadOnlyRecordStruct1(string StringPropertyA, int IntPropertyB);
+public readonly record struct ReadOnlyRecordStruct1(string StringPropertyA, int IntPropertyB);
 
 // public record struct RecordStruct1(string StringPropertyA, int IntPropertyB);
 
 public struct RegularStruct1 {
-    public string StringPropertyA { get; set; }
+    public MyEnum1 StringPropertyA { get; set; }
 }
 
 public enum MyEnum1 {

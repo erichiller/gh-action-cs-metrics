@@ -477,8 +477,9 @@ internal static class SymbolExtensions {
                    { TypeKind  : TypeKind.Interface }                                                                      => "<<interface>>",
                    { TypeKind  : TypeKind.Error, Name: { Length: > 1 } name } when name[0] == 'I' && Char.IsUpper(name[1]) => "<<interface>>", // if it's an error symbol and it follows I[A-Z] then assume it is an interface from an external assembly.
                    { TypeKind  : TypeKind.Enum }                                                                           => "<<Enum>>",
-                   { IsReadOnly: true, IsRecord: true }                                                                    => "<<record>>\n    <<readonly>>",
-                   { IsReadOnly: true }                                                                                    => "<<readonly>>",
+                   { TypeKind  : TypeKind.Struct, IsRecord: true, IsReadOnly: true, }                                      => "<<readonly record struct>>",
+                   { TypeKind  : TypeKind.Struct, IsRecord: true }                                                         => "<<record struct>>",
+                   { TypeKind  : TypeKind.Struct }                                                                         => "<<struct>>",
                    { IsRecord  : true }                                                                                    => "<<record>>",
                    { IsAbstract: true }                                                                                    => "<<abstract>>",
                    _                                                                                                       => null
