@@ -39,3 +39,20 @@ public class ClassGeneric1<T> : IGenericOne<Class1> {
     public IDisposable DisposableReturningMethod() =>
         throw new NotImplementedException();
 }
+
+// URGENT: any sort of record struct breaks things!
+
+// public readonly record struct ReadOnlyRecordStruct1(string StringPropertyA, int IntPropertyB);
+
+// public record struct RecordStruct1(string StringPropertyA, int IntPropertyB);
+
+public struct RegularStruct1 {
+    public string StringPropertyA { get; set; }
+}
+
+public enum MyEnum1 {
+    EnumMemberA,
+    EnumMemberB
+}
+
+public record RecordClass1( string StringPropertyA, int IntPropertyB);

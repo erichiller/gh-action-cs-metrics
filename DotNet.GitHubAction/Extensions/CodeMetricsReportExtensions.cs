@@ -210,13 +210,15 @@ static class CodeMetricsReportExtensions {
     }
 
     static IMarkdownDocument OpenCollapsibleSection(IMarkdownDocument document, string elementId, string symbolName, string highestComplexity) =>
-        document.AppendParagraph($@"<details>
-<summary>
-  <strong id=""{PrepareElementId(elementId)}"">
-    {HttpUtility.HtmlEncode(symbolName)} {highestComplexity}
-  </strong>
-</summary>
-<br>");
+        document.AppendParagraph($"""
+                                  <details style="margin-left: 1em">
+                                  <summary>
+                                    <strong id="{PrepareElementId(elementId)}">
+                                      {HttpUtility.HtmlEncode(symbolName)} {highestComplexity}
+                                    </strong>
+                                  </summary>
+                                  <br>
+                                  """);
 
     static string PrepareElementId(string value) =>
         value.ToLower()

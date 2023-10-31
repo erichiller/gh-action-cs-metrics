@@ -12,12 +12,12 @@ This file represents various [code metrics](https://aka.ms/dotnet/code-metrics),
 The *SampleProject.csproj* project file contains:
 
 - 1 namespaces.
-- 6 named types.
-- 37 total lines of source code.
+- 9 named types.
+- 54 total lines of source code.
 - Approximately 2 lines of executable code.
 - The highest cyclomatic complexity is 2 ✅.
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="someroot-sampleproject">
     SomeRoot.SampleProject ✅
@@ -25,14 +25,14 @@ The *SampleProject.csproj* project file contains:
 </summary>
 <br>
 
-The `SomeRoot.SampleProject` namespace contains 6 named types.
+The `SomeRoot.SampleProject` namespace contains 9 named types.
 
-- 6 named types.
-- 37 total lines of source code.
+- 9 named types.
+- 54 total lines of source code.
 - Approximately 2 lines of executable code.
 - The highest cyclomatic complexity is 2 ✅.
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="class1">
     Class1 ✅
@@ -47,8 +47,8 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L22' title='Class2 Class1.Class2Prop'>22</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L20' title='int Class1.Foo'>20</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class1-class-diagram">🔗 to `Class1` class diagram</a>
 
@@ -56,7 +56,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 </details>
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="class2">
     Class2 ✅
@@ -71,10 +71,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L28' title='string Class2.GenericTOne'>28</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L29' title='int Class2.GenericTTwo'>29</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L27' title='string[] Class2.StringArrayProp'>27</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L26' title='string Class2.StringProp'>26</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#Class2-class-diagram">🔗 to `Class2` class diagram</a>
 
@@ -82,7 +82,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 </details>
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="classgeneric1t">
     ClassGeneric1&lt;T&gt; ✅
@@ -97,10 +97,10 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
-| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L39' title='IDisposable ClassGeneric1<T>.DisposableReturningMethod()'>39</a> | 100 | 1 ✅ | 0 | 4 | 2 / 1 |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L36' title='ValueTask ClassGeneric1<T>.DoThingsAsync()'>36</a> | 100 | 1 ✅ | 0 | 2 | 2 / 1 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L34' title='Class1 ClassGeneric1<T>.GenericTOne'>34</a> | 100 | 1 ✅ | 0 | 1 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L33' title='T ClassGeneric1<T>.MyT'>33</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#ClassGeneric1&lt;T&gt;-class-diagram">🔗 to `ClassGeneric1&lt;T&gt;` class diagram</a>
 
@@ -108,7 +108,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 </details>
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="igenericonet1">
     IGenericOne&lt;T1&gt; ✅
@@ -123,7 +123,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L8' title='T1 IGenericOne<T1>.GenericTOne'>8</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericOne&lt;T1&gt;-class-diagram">🔗 to `IGenericOne&lt;T1&gt;` class diagram</a>
 
@@ -131,7 +131,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 </details>
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="igenerictwot1,+t2">
     IGenericTwo&lt;T1, T2&gt; ✅
@@ -146,7 +146,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L12' title='T2 IGenericTwo<T1, T2>.GenericTTwo'>12</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IGenericTwo&lt;T1, T2&gt;-class-diagram">🔗 to `IGenericTwo&lt;T1, T2&gt;` class diagram</a>
 
@@ -154,7 +154,7 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 </details>
 
-<details>
+<details style="margin-left: 1em">
 <summary>
   <strong id="iintfoo">
     IIntFoo ✅
@@ -169,9 +169,81 @@ The `SomeRoot.SampleProject` namespace contains 6 named types.
 
 | Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L16' title='int IIntFoo.Foo'>16</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
 
 <a href="#IIntFoo-class-diagram">🔗 to `IIntFoo` class diagram</a>
+
+<a href="#someroot-sampleproject">🔝 back to SomeRoot.SampleProject</a>
+
+</details>
+
+<details style="margin-left: 1em">
+<summary>
+  <strong id="myenum1">
+    MyEnum1 ✅
+  </strong>
+</summary>
+<br>
+
+- The `MyEnum1` contains 2 members.
+- 4 total lines of source code.
+- Approximately 0 lines of executable code.
+- The highest cyclomatic complexity is 0 ✅.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Field | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L54' title='MyEnum1.EnumMemberA'>54</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+| Field | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L55' title='MyEnum1.EnumMemberB'>55</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+
+<a href="#MyEnum1-class-diagram">🔗 to `MyEnum1` class diagram</a>
+
+<a href="#someroot-sampleproject">🔝 back to SomeRoot.SampleProject</a>
+
+</details>
+
+<details style="margin-left: 1em">
+<summary>
+  <strong id="recordclass1">
+    RecordClass1 ✅
+  </strong>
+</summary>
+<br>
+
+- The `RecordClass1` contains 3 members.
+- 1 total lines of source code.
+- Approximately 0 lines of executable code.
+- The highest cyclomatic complexity is 1 ✅.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Method | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L58' title='RecordClass1.RecordClass1(string StringPropertyA, int IntPropertyB)'>58</a> | 100 | 1 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L58' title='int RecordClass1.IntPropertyB'>58</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L58' title='string RecordClass1.StringPropertyA'>58</a> | 100 | 0 ✅ | 0 | 0 | 1 / 0 |
+
+<a href="#RecordClass1-class-diagram">🔗 to `RecordClass1` class diagram</a>
+
+<a href="#someroot-sampleproject">🔝 back to SomeRoot.SampleProject</a>
+
+</details>
+
+<details style="margin-left: 1em">
+<summary>
+  <strong id="regularstruct1">
+    RegularStruct1 ✅
+  </strong>
+</summary>
+<br>
+
+- The `RegularStruct1` contains 1 members.
+- 9 total lines of source code.
+- Approximately 0 lines of executable code.
+- The highest cyclomatic complexity is 2 ✅.
+
+| Member kind | Line number | Maintainability index | Cyclomatic complexity | Depth of inheritance | Class coupling | Lines of source / executable code |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Property | <a href='https://github.com/erichiller/gh-action-cs-metrics/blob/master/test/SampleProject/SampleProject/Class1.cs#L50' title='string RegularStruct1.StringPropertyA'>50</a> | 100 | 2 ✅ | 0 | 0 | 1 / 0 |
+
+<a href="#RegularStruct1-class-diagram">🔗 to `RegularStruct1` class diagram</a>
 
 <a href="#someroot-sampleproject">🔝 back to SomeRoot.SampleProject</a>
 
@@ -316,6 +388,66 @@ class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
 
 ```
 
+<div id="MyEnum1-class-diagram"></div>
+
+##### `MyEnum1` class diagram
+
+```mermaid
+%%{init: {
+    'fontFamily': 'monospace'
+} }%%
+classDiagram
+class SomeRoot_SampleProject_MyEnum1 ["MyEnum1"] {
+    <<Enum>>
+    -EnumMemberA$
+    -EnumMemberB$
+}
+
+```
+
+<div id="RecordClass1-class-diagram"></div>
+
+##### `RecordClass1` class diagram
+
+```mermaid
+%%{init: {
+    'fontFamily': 'monospace'
+} }%%
+classDiagram
+System_IEquatable__ <|-- SomeRoot_SampleProject_RecordClass1 : implements
+class System_IEquatable__ ["IEquatable&lt;RecordClass1&gt;"] {
+    <<interface>>
+}
+class SomeRoot_SampleProject_RecordClass1 ["RecordClass1"] {
+    <<record>>
+    +Type EqualityContract
+    +string StringPropertyA
+    +int IntPropertyB
+    +ToString() string
+    +PrintMembers(StringBuilder builder) bool
+    +GetHashCode() int
+    +Equals(object? obj) bool
+    +Equals(RecordClass1? other) bool
+    +Deconstruct(out string StringPropertyA, out int IntPropertyB) void
+}
+
+```
+
+<div id="RegularStruct1-class-diagram"></div>
+
+##### `RegularStruct1` class diagram
+
+```mermaid
+%%{init: {
+    'fontFamily': 'monospace'
+} }%%
+classDiagram
+class SomeRoot_SampleProject_RegularStruct1 ["RegularStruct1"] {
+    +string StringPropertyA
+}
+
+```
+
 ## Mermaid class diagrams
 
 ## All class diagrams
@@ -363,6 +495,30 @@ class SomeRoot_SampleProject_IGenericTwo_T1_T2_ ["IGenericTwo&lt;T1, T2&gt;"] {
 class SomeRoot_SampleProject_IIntFoo ["IIntFoo"] {
     <<interface>>
     +int Foo*
+}
+
+class SomeRoot_SampleProject_MyEnum1 ["MyEnum1"] {
+    <<Enum>>
+    -EnumMemberA$
+    -EnumMemberB$
+}
+
+System_IEquatable__ <|-- SomeRoot_SampleProject_RecordClass1 : implements
+class SomeRoot_SampleProject_RecordClass1 ["RecordClass1"] {
+    <<record>>
+    +Type EqualityContract
+    +string StringPropertyA
+    +int IntPropertyB
+    +ToString() string
+    +PrintMembers(StringBuilder builder) bool
+    +GetHashCode() int
+    +Equals(object? obj) bool
+    +Equals(RecordClass1? other) bool
+    +Deconstruct(out string StringPropertyA, out int IntPropertyB) void
+}
+
+class SomeRoot_SampleProject_RegularStruct1 ["RegularStruct1"] {
+    +string StringPropertyA
 }
 
 
