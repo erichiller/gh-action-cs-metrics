@@ -73,12 +73,6 @@ static async Task StartAnalysisAsync(ActionInputs inputs, IHost host) {
         await using var textWriter = new StreamWriter(githubOutputFile, true, Encoding.UTF8);
         textWriter.WriteLine($"updated-metrics={updatedMetrics}");
         textWriter.WriteLine($"summary-title={title}");
-        /*
-        textWriter.WriteLine(
-            "summary-details<<EOF\n" +
-            summary                  +
-            "\nEOF\n");
-        */
         textWriter.WriteLine("summary-details<<EOF");
         textWriter.WriteLine(summary);
         textWriter.WriteLine("EOF");
